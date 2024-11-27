@@ -37,6 +37,8 @@ Timeline
 1-19    - ...
 20-25   - Project Proposal
 25      - Initialized directory
+26      - ...
+27-??   - Created instructions menu
 
 
 ### December ###
@@ -52,6 +54,15 @@ Timeline
 Summary
 =======================================
 ...
+
+
+
+=======================================
+Colors
+=======================================
+50              [Gray]
+255             [White]
+193, 116, 237   [Purple]
 
 
 
