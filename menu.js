@@ -17,6 +17,12 @@ function settings() {
     instructions();
     controls();
   }
+  if (fullScreenCheckbox.checked()) {
+    fullscreen(true);
+  } 
+  else {
+    fullscreen(false);
+  }
 }
 
 function drawSettingsBox() {
@@ -31,7 +37,6 @@ function drawSettingsBox() {
   fill(255);
   textFont('Cinzel');
   textSize(40);
-  textAlign(CENTER);
   text('Settings', width/2, height/2 - settingsBoxHeight/1.6);
 
   pop();
@@ -44,7 +49,7 @@ function instructions() {
 function controls() {
   // allows changing sound, screen size, AND ???
   fill(193, 116, 237);
-  text('Full screen', width/2 - settingsBoxWidth/3.5, height/2 - settingsBoxHeight/2);
+  text('Full screen', width/2 - settingsBoxWidth/4, height/2 - settingsBoxHeight/2);
 }
 
 

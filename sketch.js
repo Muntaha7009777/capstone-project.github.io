@@ -7,7 +7,7 @@
 function setup() {
   createCanvas(windowWidth, windowHeight);
   fullScreenCheckbox = createCheckbox();
-  fullScreenCheckbox.position(width/2 - settingsBoxWidth/3.5, height/2 - settingsBoxHeight/2);
+  fullScreenCheckbox.position(width/2 - settingsBoxWidth/3.5, height/2 - settingsBoxHeight/1.85);
 }
 
 function draw() {
