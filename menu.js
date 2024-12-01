@@ -3,8 +3,7 @@
 //  - 
 
 let settingsSize = 30;
-let settingsBoxWidth = 600;
-let settingsBoxHeight = settingsBoxWidth - settingsBoxWidth/3;
+let settingsBoxWidth, settingsBoxHeight;
 let settingsVisible = true;
 
 let fullScreenCheckbox;
@@ -17,12 +16,12 @@ function settings() {
     instructions();
     controls();
   }
-  if (fullScreenCheckbox.checked()) {
-    fullscreen(true);
-  } 
-  else {
-    fullscreen(false);
-  }
+  // if (fullScreenCheckbox.checked()) {
+  //   fullscreen(true);
+  // } 
+  // else {
+  //   fullscreen(false);
+  // }
 }
 
 function drawSettingsBox() {
@@ -35,9 +34,10 @@ function drawSettingsBox() {
   rect(width/2, height/2, settingsBoxHeight, settingsBoxWidth);
 
   fill(255);
+  textAlign(CENTER);
   textFont('Cinzel');
-  textSize(40);
-  text('Settings', width/2, height/2 - settingsBoxHeight/1.6);
+  textSize(30);
+  text('Settings', width/2, height/2 - settingsBoxWidth/2.5);
 
   pop();
 }
@@ -47,13 +47,13 @@ function instructions() {
 }
 
 function controls() {
-  // allows changing sound, screen size, AND ???
+  // allows changing sound, fullscreen, AND keys
   fill(193, 116, 237);
   text('Full screen', width/2 - settingsBoxWidth/4, height/2 - settingsBoxHeight/2);
 }
 
 
-function settingsClicked() {
+function settingsPressed() {
   // mousePressed()
   if (mouseX > width - settingsSize && mouseY > height - settingsSize) {
     settingsVisible = !settingsVisible;
