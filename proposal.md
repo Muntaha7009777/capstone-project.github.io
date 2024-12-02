@@ -17,6 +17,7 @@ Taught Concepts used
 =======================================
 Shapes
 User interactions (MousePress, MouseWheel, KeyPressed, etc)
+2D Arrays
 Loops
 Nested loops
 State, Global, Local Variables

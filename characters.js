@@ -33,7 +33,7 @@ function displayPreviewChar() {
   tint('grey');
   image(selChars[0], width / 4, height / 2);
   image(selChars[1], width / 2, height / 2);
-  image(selChars[2], width - (width / 4), height / 2);
+  image(selChars[2], width - width / 4, height / 2);
 
   // check selection intention
   if (mouseY > height / 3 && mouseY < height - height / 3) {
@@ -45,16 +45,17 @@ function displayPreviewChar() {
         char.charLoad();
       }
     }
-    else if (mouseX > width / 4 && mouseX < width - (width / 4)) {
+    else if (mouseX > width / 4 && mouseX < width - width / 4) {
       noTint();
       image(selChars[0], width / 2, height / 2);
       if (mouseIsPressed) {
         char = new Char(1);
         char.charLoad();
       }
-    } else {
+    }
+    else {
       noTint();
-      image(selChars[0], width - (width / 4), height / 2);
+      image(selChars[0], width - width / 4, height / 2);
       if (mouseIsPressed) {
         char = new Char(2);
         char.charLoad();
@@ -98,10 +99,18 @@ class Char {
 
   move() {
     if (keyIsPressed) {
-      if (keyCode === UP_ARROW && this.charY > 0) this.charY -= moveCharBy;
-      else if (keyCode === DOWN_ARROW && this.charY < height) this.charY += moveCharBy;
-      else if (keyCode === LEFT_ARROW && this.charX > 0) this.charX -= moveCharBy;
-      else if (keyCode === RIGHT_ARROW && this.charX < width) this.charX += moveCharBy;
+      if (keyCode === UP_ARROW && this.charY > 0) {
+        this.charY -= moveCharBy;
+      }
+      else if (keyCode === DOWN_ARROW && this.charY < height) {
+        this.charY += moveCharBy;
+      }
+      else if (keyCode === LEFT_ARROW && this.charX > 0) {
+        this.charX -= moveCharBy;
+      }
+      else if (keyCode === RIGHT_ARROW && this.charX < width) {
+        this.charX += moveCharBy;
+      }
     }
   }
 
@@ -116,8 +125,12 @@ class Char {
   }
 
   action() {
-    if (keyCode === 77) this.attack();
-    if (keyCode === 32) this.jump();
+    if (keyCode === 77) {
+      this.attack();
+    }
+    if (keyCode === 32) {
+      this.jump();
+    }
   }
 
   manage() {

@@ -25,7 +25,18 @@ Features
 =======================================
     Done                                                               Not done
 ------------                                                        --------------
-...
+Shapes
+User interactions (MousePress, MouseWheel, KeyPressed, etc)
+Loops
+Nested loops
+State, Global, Local Variables
+Images and sound
+Objects and Classes
+
+
+2D Arrays
+Map and Lerp
+Random and Perlin
 
 
 
