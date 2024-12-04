@@ -5,11 +5,11 @@ let invVisible = true;
 
 let splbk;
 let splbkItems = [
-  ['heading', 'ingredients', 'Spell', ['A sketch obviously']],
-  ['heading', 'ingredients', 'Spell', ['A sketch obviously']],
-  ['heading', 'ingredients', 'Spell', ['A sketch obviously']],
-  ['heading', 'ingredients', 'Spell', ['A sketch obviously']],
-  ['heading', 'ingredients', 'Spell', ['A sketch obviously']]
+  ['heading1', 'ingredients', 'Spell', ['A sketch obviously']],
+  ['heading2', 'ingredients', 'Spell', ['A sketch obviously']],
+  ['heading3', 'ingredients', 'Spell', ['A sketch obviously']],
+  ['heading4', 'ingredients', 'Spell', ['A sketch obviously']],
+  ['heading5', 'ingredients', 'Spell', ['A sketch obviously']]
 ];
 let splbkVisible = true;
 
@@ -34,6 +34,8 @@ function splbkButton() {
   rect(width - 30, 40, 20);
   fill(255);
 }
+
+
 
 function invOpener() {
   // mousePressed()
@@ -145,7 +147,9 @@ class SpellBook {
 
       // display the items
       this.styleSpells2Page(this.splbkStart, this.x - this.splbkWidth / 2, this.y);
-
+      if (this.splbkStart !== splbkItems.length-1) {
+        this.styleSpells2Page(this.splbkStart+1, this.x + this.splbkWidth / 2, this.y);
+      }
 
       rect(this.x + this.splbkWidth - 10, this.y + this.splbkHeight / 2 - 10, 20, 20);
       rect(this.x - this.splbkWidth + 10, this.y + this.splbkHeight / 2 - 10, 20, 20);
@@ -156,20 +160,23 @@ class SpellBook {
 
   styleSpells2Page(spellNum, x, y) {
     textSize(20);
-    textAlign(CENTER, CENTER);
     fill(0);
-
+    
+    // heading
+    textAlign(CENTER, CENTER);
     textSize(30);
     text(splbkItems[spellNum][0], x, y - this.splbkHeight/3);
 
+    // ingredients
+    textAlign(CENTER, TOP);
     textSize(10);
-    text(splbkItems[spellNum][1], x, y);
+    text(splbkItems[spellNum][1], x, y- this.splbkHeight/4, x-4);
 
+    // directions
+    text(splbkItems[spellNum][2], x, y- this.splbkHeight/8, x-4);
 
-
-    if (this.splbkStart !== splbkItems.length-1) {
-      text(splbkItems[this.splbkStart+1][0], this.x + this.splbkWidth / 2, this.y);
-    }
+    // sketch
+    // img(splbkItems[spellNum][3], x, y+ this.splbkHeight/4)
   }
 
   slide() {

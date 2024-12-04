@@ -25,19 +25,19 @@ function draw() {
 
   // settings();
 
-  // if (charSelected === false) {
-  //   displayPreviewChar();
-  // }
-  // else {
-  //   char.manage();
-  // }
+  if (charSelected === false) {
+    displayPreviewChar();
+  }
+  else {
+    char.manage();
+    invButton();
+    splbkButton();
+    inv.manage();
+    splbk.display();
+    mouseGuide();
+  }
 
   
-  invButton();
-  splbkButton();
-  inv.manage();
-  splbk.display();
-  mouseGuide();
 }
 
 

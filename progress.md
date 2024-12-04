@@ -38,6 +38,7 @@ Objects and Classes
 Map and Lerp
 Random and Perlin
 
+https://www.figma.com/design/vCD1gZC22zAMDHW6uJBpl0/CS30-Capstone-Pla?node-id=0-1&t=qaBub8UvzfD2Nt0o-1
 
 
 =======================================
@@ -80,4 +81,22 @@ Colors
 =======================================
 Structure
 =======================================
-...
+- assets
+    - fonts
+    - images
+        - characters
+    - sound
+
+- characters.js
+- dialogue.js
+- inventory.js
+- menu.js
+- sets.js
+- sketch.js
+
+- proposal.md
+- progress.md
+- credits.md
+
+- index.html
+- styles.css
