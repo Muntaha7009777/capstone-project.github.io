@@ -1,5 +1,10 @@
 
-let set1, set2, set3;
+let set1; 
+let set2;
+let set3;
+
+let currentSet = 0;   //0- menu.js Homescreen,   1- Chains   2- Hallways   3- Library
+let currentScene = 0;
 
 function setChange() {
   set1= loadImage('assets/images/sets/1.png');
