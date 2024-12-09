@@ -1,16 +1,20 @@
 
 let cutScene = [
-  [],     // pre-scene
-  [],     //set 1
-  [],     //set 2
-  []      //set 3
+  ['', '', '', ''],     // pre-scene
+  ['', '', '', ''],     //set 1
+  ['', '', '', ''],     //set 2
+  ['', '', '', '']      //set 3
 ];
 
 let objectMem = [
-  ['', ''],
-  
+  ['', '', '', ''],
+  ['', '', '', ''],
+  ['', '', '', ''],
+  ['', '', '', ''],
+  ['', '', '', ''],
+  ['', '', '', ''],
 ];
-// 'objectName', 'Dialogue'
+// 'objectName', 'Dialogue', 'Right action', 'Wrong Action dialogue'
 
 let endingSnip = [
   ['', '', ''],     //ripped1
@@ -20,3 +24,4 @@ let endingSnip = [
   ['', '', ''],     //starved   --dep. on spell
   ['', '', '']      //alive
 ];
+// endingName, ...text
