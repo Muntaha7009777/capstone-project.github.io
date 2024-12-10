@@ -21,6 +21,12 @@ function invPreLoad() {
   }
 }
 
+function invNSpells(){
+  invButton();
+  splbkButton();
+  inv.manage();
+  splbk.display();
+}
 
 
 function invButton() {
