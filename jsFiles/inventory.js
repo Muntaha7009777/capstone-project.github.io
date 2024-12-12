@@ -14,6 +14,11 @@ let splbkItems = [
 let splbkVisible = true;
 
 
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Caller Functions 
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+
 function invPreLoad() {
   // preload()
   for (let i = 0; i < 10; i++) {
@@ -28,6 +33,11 @@ function invNSpells(){
   splbk.display();
 }
 
+
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Interactivity
+// ++++++++++++++++++++++++++++++++++++++++++++++++
 
 function invButton() {
   fill(90, 30, 70);
@@ -60,6 +70,9 @@ function splbkOpener() {
 }
 
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Inventory class
+// ++++++++++++++++++++++++++++++++++++++++++++++++
 
 class Inventory {
   constructor() {
@@ -134,6 +147,11 @@ class Inventory {
   }
 }
 
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Spells Class 
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+
 class SpellBook {
   constructor() {
     this.splbkHeight = height / 2.5;
@@ -205,3 +223,8 @@ class SpellBook {
     console.log('SplbkStart', this.splbkStart, 'SplBkItems', splbkItems.length);
   }
 }
+
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Objects Class 
+// ++++++++++++++++++++++++++++++++++++++++++++++++

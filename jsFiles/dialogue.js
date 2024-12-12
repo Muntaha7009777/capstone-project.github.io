@@ -1,3 +1,4 @@
+// test warn
 
 let cutScene = [
   ['Scene1 Text Lorem Ipsum', 'Etiam ac est turpis. Morbi ornare luctus leo', 'sed luctus lorem ornare sed.', 'In eget pellentesque tortor, sed sagittis urna.'],     // pre-scene
@@ -7,7 +8,7 @@ let cutScene = [
 ];
 
 let objectMem = [
-  ['', '', '', ''],
+  ['Item 1', 'adfas', 'sdfgsfer', 'You failed'],
   ['', '', '', ''],
   ['', '', '', ''],
   ['', '', '', ''],
@@ -16,22 +17,13 @@ let objectMem = [
 ];
 // 'objectName', 'Dialogue', 'Right action', 'Wrong Action dialogue'
 
-let endingSnip = [
-  ['', '', ''],     //ripped1
-  ['', '', ''],     //ripped2
-  ['', '', ''],     //eaten
-  ['', '', ''],     //fell      --dep. on spell
-  ['', '', ''],     //starved   --dep. on spell
-  ['', '', '']      //alive
-];
-// endingName, ...text
 
 
 let
   stateDia = 'Writing',
   fullLineShown = false,
   charTyped = 0,
-  dialogueNotDone = true,
+  dialogueNotDone = false,
   currScene = 0,
   currLine = 0,
   xDiaBox, 
@@ -41,19 +33,43 @@ let
   xLine, 
   yLine,
   lineWidth,
-  lineHeight;
+  lineHeight,
+  diaBackImg = 150;
 
+let
+  currItem = 0,
+  itemAction = "Wrong Action",
+  warnBoxWidth,
+  warnBoxHeight,
+  xWarnBox, 
+  yWarnBox,
+  warnTimer = 150;
+
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Caller Functions 
+// ++++++++++++++++++++++++++++++++++++++++++++++++
 
 function dialogue() {
   if (dialogueNotDone) {
     drawDiaBox();
     showDialogue(cutScene[currScene]);
   }
+  if (itemAction === "Wrong Action") {
+    drawWarnBox();
+    warnAction();
+  }
 }
 
 
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Cutscene
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+
 function drawDiaBox() {
   rectMode(CENTER);
+  image(charImages[0], xDiaBox-diaBoxWidth/3, yDiaBox-diaBoxHeight/1.5, diaBackImg, diaBackImg);
   fill('lightgreen');
   rect(xDiaBox, yDiaBox, diaBoxWidth, diaBoxHeight);
   rectMode(CORNER);
@@ -81,7 +97,7 @@ function animateText(line) {
 
 function dialogueBoxPressed() {
   if (mouseX > width/12 && mouseX < width-width/12) {
-    if (mouseY < height-height/25 && mouseY > (3*height/4)-height/25) {
+    if (mouseY < height-height/25 && mouseY > 3*height/4-height/25) {
       if (stateDia === 'Writing' && fullLineShown === false) {
         stateDia = 'AtOnce';
       }
@@ -97,5 +113,29 @@ function dialogueBoxPressed() {
       }
       console.log(stateDia, 'Dialogue Box Clicked');
     }
+  }
+}
+
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Warnings
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+
+function drawWarnBox() {
+  rectMode(CENTER);
+  noStroke();
+  fill(200,200,200,70);
+  rect(xWarnBox, yWarnBox, warnBoxWidth, warnBoxHeight);
+  stroke(1);
+  rectMode(CORNER);
+}
+
+function warnAction() {
+  fill(0, 0, 0, warnTimer);
+  textAlign(CENTER, CENTER);
+  text(objectMem[currItem][3], xWarnBox, yWarnBox);
+  warnTimer--;
+  if (warnTimer === 0) {
+    itemAction = '';
   }
 }

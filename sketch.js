@@ -27,12 +27,18 @@ function setup() {
   lineWidth = width-width/4;
   lineHeight = height-height/8;
 
+  xWarnBox = width / 2;
+  yWarnBox = height - height / 3;
+  warnBoxWidth = width-width/2;
+  warnBoxHeight = height/18;
+
 
   inv = new Inventory();
   splbk = new SpellBook();
 }
 
 function draw() {
+  // interacts with the "draw()" of every file ONLY
   background(220);
 
   // settings();
@@ -43,11 +49,12 @@ function draw() {
   // else {
     // char.manage();
     // invNSpells();
-    dialogue();
-    // }
+    // dialogue();
+    // showEnding();
+  // }
     
     mouseGuide();
-    gridGuide();
+    gridGuide(0);
 
 }
 
@@ -68,42 +75,46 @@ function mouseGuide() {
   text(mouseX + ',' + mouseY, mouseX, mouseY);
 }
 
-function gridGuide() {
+function gridGuide(a) {
   strokeWeight(0.5);
 
-  // 2
-  // stroke('purple');
-  // line(0, height/2, width, height/2);
-  // line(width/2, 0, width/2, height);
+  if (a === 2) {
+    stroke('purple');
+    line(0, height/2, width, height/2);
+    line(width/2, 0, width/2, height);
+  }
 
-  // 3
-  // stroke('green');
-  // line(0, height/3, width, height/3);
-  // line(0, height-height/3, width, height-height/3);
-  // line(width/3, 0, width/3, height);
-  // line(width-width/3, 0, width-width/3, height);
+  if (a === 3) {
+    stroke('green');
+    line(0, height/3, width, height/3);
+    line(0, height-height/3, width, height-height/3);
+    line(width/3, 0, width/3, height);
+    line(width-width/3, 0, width-width/3, height);
+  }
 
-  // 4
-  // stroke('blue');
-  // line(0, height/4, width, height/4);
-  // line(0, height/2, width, height/2);
-  // line(0, height-height/4, width, height-height/4);
-  // line(width/4, 0, width/4, height);
-  // line(width/2, 0, width/2, height);
-  // line(width-width/4, 0, width-width/4, height);  
+  if (a === 4) {
+    stroke('blue');
+    line(0, height/4, width, height/4);
+    line(0, height/2, width, height/2);
+    line(0, height-height/4, width, height-height/4);
+    line(width/4, 0, width/4, height);
+    line(width/2, 0, width/2, height);
+    line(width-width/4, 0, width-width/4, height);  
+  }
 
-  // 6
-  // stroke('orange');
-  // line(0, height/6, width, height/6);
-  // line(0, height/3, width, height/3);
-  // line(0, height/2, width, height/2);
-  // line(0, height-height/3, width, height-height/3);
-  // line(0, height-height/6, width, height-height/6);
-  // line(width/6, 0, width/6, height);
-  // line(width/3, 0, width/3, height);
-  // line(width/2, 0, width/2, height);
-  // line(width-width/3, 0, width-width/3, height);
-  // line(width-width/6, 0, width-width/6, height);
+  if (a === 6) {
+    stroke('orange');
+    line(0, height/6, width, height/6);
+    line(0, height/3, width, height/3);
+    line(0, height/2, width, height/2);
+    line(0, height-height/3, width, height-height/3);
+    line(0, height-height/6, width, height-height/6);
+    line(width/6, 0, width/6, height);
+    line(width/3, 0, width/3, height);
+    line(width/2, 0, width/2, height);
+    line(width-width/3, 0, width-width/3, height);
+    line(width-width/6, 0, width-width/6, height);
+  }
 
   stroke(0);
 }
