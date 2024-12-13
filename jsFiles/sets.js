@@ -3,7 +3,7 @@ let set1;
 let set2;
 let set3;
 
-let currentSet = 0;   //0- menu.js Homescreen,   1- Chains   2- Hallways   3- Library
+let currentSet = 4;   //0- menu.js Homescreen,   1- Chains   2- Hallways   3- Library  4- Ending
 let currentScene = 0;
 
 function setChange() {

@@ -4,9 +4,11 @@
 // [2024] November 27 - ???
 // Capstone Project
 
+
 function preload() {
   charPreLoad();
   invPreLoad();
+  endPreLoad();
 }
 
 function setup() {
@@ -50,7 +52,8 @@ function draw() {
     // char.manage();
     // invNSpells();
     // dialogue();
-    // showEnding();
+    showEnding();
+    // console.log('Current Set', currentSet);
   // }
     
     mouseGuide();
