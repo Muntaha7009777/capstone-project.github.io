@@ -38,7 +38,7 @@ let
 
 let
   currItem = 0,
-  itemAction = "Wrong Action",
+  itemAction = "Wrong Action", //"" or "Wrong Action"
   warnBoxWidth,
   warnBoxHeight,
   xWarnBox, 
@@ -130,10 +130,10 @@ function drawWarnBox() {
   rectMode(CORNER);
 }
 
-function warnAction() {
+function warnAction(warning) {
   fill(0, 0, 0, warnTimer);
   textAlign(CENTER, CENTER);
-  text(objectMem[currItem][3], xWarnBox, yWarnBox);
+  text(warning, xWarnBox, yWarnBox);
   warnTimer--;
   if (warnTimer === 0) {
     itemAction = '';

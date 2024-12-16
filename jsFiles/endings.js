@@ -5,7 +5,8 @@ let endingSnip = [
   ['eaten', '', ['','']],     //eaten
   ['fell', '', ['','']],     //fell      --dep. on spell
   ['starved', '', ['','']],     //starved   --dep. on spell
-  ['alive', '', ['','']]      //alive
+  ['alive', '', ['','']],      //alive
+  ['cursed', '', ['','']]      //alive
 ];
   // endingName, image, [text]
 
@@ -13,7 +14,7 @@ let
   currEnding = 0,
   endingLineTimer = 300,
   currEndLine = 0,
-  NUM_OF_ENDINGS = 6,
+  NUM_OF_ENDINGS = endingSnip.length,
   xEndLine, 
   yEndLine;
 
