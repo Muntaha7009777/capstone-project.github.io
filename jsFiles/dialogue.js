@@ -7,7 +7,7 @@ let cutScene = [
   ['Scene4 Text Lorem Ipsum', 'Etiam ac est turpis. Morbi ornare luctus leo', 'sed luctus lorem ornare sed.', 'In eget pellentesque tortor, sed sagittis urna.']      //set 3
 ];
 
-let objectMem = [
+let items = [
   ['Item 1', 'adfas', 'sdfgsfer', 'You failed'],
   ['', '', '', ''],
   ['', '', '', ''],
