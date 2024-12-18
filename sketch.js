@@ -6,9 +6,9 @@
 
 
 function preload() {
-  charPreLoad();
-  invPreLoad();
-  endPreLoad();
+  // charPreLoad();
+  // invPreLoad();
+  // endPreLoad();
 }
 
 function setup() {
@@ -24,8 +24,8 @@ function setup() {
   yDiaBox = height - height / 6;
   diaBoxWidth = width-width/6;
   diaBoxHeight = height/4;
-  xLine = width / 6;
-  yLine = height - height / 4;
+  // xLine = width / 6;
+  // yLine = height - height / 4;
   lineWidth = width-width/4;
   lineHeight = height-height/8;
 
@@ -52,7 +52,7 @@ function draw() {
     // char.manage();
     // invNSpells();
     // dialogue();
-    showEnding();
+    // showEnding();
     // console.log('Current Set', currentSet);
   // }
     

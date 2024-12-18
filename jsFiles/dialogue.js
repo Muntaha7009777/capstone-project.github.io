@@ -23,7 +23,7 @@ let
   stateDia = 'Writing',
   fullLineShown = false,
   charTyped = 0,
-  dialogueNotDone = false,
+  dialogueNotDone = true,
   currScene = 0,
   currLine = 0,
   xDiaBox, 

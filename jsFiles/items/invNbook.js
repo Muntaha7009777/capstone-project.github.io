@@ -4,13 +4,6 @@ let invItems = [];
 let invVisible = true;
 
 let splbk;
-let splbkItems = [
-  ['heading1', 'ingredients', 'Spell', ['A sketch obviously']],
-  ['heading2', 'ingredients', 'Spell', ['A sketch obviously']],
-  ['heading3', 'ingredients', 'Spell', ['A sketch obviously']],
-  ['heading4', 'ingredients', 'Spell', ['A sketch obviously']],
-  ['heading5', 'ingredients', 'Spell', ['A sketch obviously']]
-];
 let splbkVisible = true;
 
 
