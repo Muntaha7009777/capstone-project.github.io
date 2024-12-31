@@ -57,7 +57,7 @@ function draw() {
   // }
     
     mouseGuide();
-    gridGuide(0);
+    gridGuide(2);
 
 }
 
