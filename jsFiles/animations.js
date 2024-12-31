@@ -16,6 +16,10 @@ function weaponUsed() {
     // decrease monster health
 }
 
+function found() {
+    // animations
+    // when some object is found
+}
 
 
 // ++++++++++++++++++++++++++++++++

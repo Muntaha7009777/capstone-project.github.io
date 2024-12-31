@@ -1,7 +1,7 @@
 
-let weapon = [];
-let food = [];
-let items = [];
+let weaponList = [];
+let foodList = [];
+let itemsList = [];
 
 
 // Parameters:
@@ -52,7 +52,7 @@ class Trinkets {
 
 
 
-class Weapons extends Trinkets {
+class Weapon extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
     super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, weaponUsed())
   }

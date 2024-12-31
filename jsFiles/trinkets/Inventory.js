@@ -15,41 +15,69 @@ let inv;
 let invItems = [];
 let invVisible = true;
 
+let invArrow;
+let invBox;
+let invIconOpen;
+let invIconClose;
+
+let T_img;
+
 
 function invPreLoad() {
     // preload()
-    for (let i = 0; i < 10; i++) {
-        invItems.push(loadImage('/assets/images/characters/preview1.png'));
-    }
+    invItems.push(loadImage('/assets/images/invTRIAL/eyeball.png'));
+    invItems.push(loadImage('/assets/images/invTRIAL/mushroom.png'));
+    invItems.push(loadImage('/assets/images/invTRIAL/newt.png'));
+    invItems.push(loadImage('/assets/images/invTRIAL/potionHP.png'));
+    invItems.push(loadImage('/assets/images/invTRIAL/potionXP.png'));
+    invItems.push(loadImage('/assets/images/invTRIAL/shield.png'));
+    invItems.push(loadImage('/assets/images/invTRIAL/sword.png'));
+
+    T_img = loadImage('/assets/images/invTRIAL/T.png');
+    invArrow = loadImage('/assets/images/invTRIAL/arrow.png');
+    invBox = loadImage('/assets/images/invTRIAL/box.png');
+    invIconClose = loadImage('/assets/images/invTRIAL/invClose.png');
+    invIconOpen = loadImage('/assets/images/invTRIAL/invOpen.png');
 }
 
+function invSetup() {
+  inv = new Inventory();
+}
 
-function inventory() {
+function inventoryCon() {
     invButton();
-    inv.manage();
+    inv.display();
+    // T_INV_addRem();
 }
 
 
 function invButton() {
     fill(90, 30, 70);
-    circle(width - 20, 20, 20);
+    imageMode(CENTER);
+    if (invVisible) {
+        image(invIconOpen, width-40, 40, 50, 50);
+    } else {
+        image(invIconClose, width-40, 40, 50, 50);
+    }
     fill(255);
 }
 
 
-function invOpener() {
+function invPressed() {
     // mousePressed()
-    if (mouseX > width - 30 && mouseY < 30) {
+    if (mouseX > width - 90 && mouseY < 60) {
         invVisible = !invVisible;
         console.log('Inventory', invVisible);
     }
+    inv.slide();
+    // T_INV_pressed();
 }
 
 
 class Inventory {
     constructor() {
         this.invHeight = 100;
-        this.invWidth = width - width / 4;
+        this.invWidth = 500;
         this.x = width / 2;
         this.y = height - this.invHeight;
         this.invStart = 0;
@@ -58,26 +86,35 @@ class Inventory {
 
     display() {
         if (invVisible) {
-
             push();
             rectMode(CENTER);
 
-            rect(this.x, this.y, this.invWidth, this.invHeight);
+            // Arrows
+            imageMode(CENTER);
+            image(invArrow, this.x + 250, this.y, 100, 100);
+            push();
+            translate(this.x - 250, this.y);
+            rotate(PI);
+            image(invArrow, 0, 0, 100, 100);
+            pop();
 
+            // rect(this.x, this.y, this.invWidth, this.invHeight);
             strokeWeight(4);
             for (let i = 0; i < 50; i += 10) {
-                rect(this.x - (200 - i * 10), this.y, 100);
+                tint('pink');
+                image(invBox, this.x - (200 - i * 10), this.y+5, 110, 110);
+                noTint();
+                // rect(this.x - (200 - i * 10), this.y, 100);
             }
             strokeWeight(1);
+
+
 
             //display the items
             imageMode(CENTER);
             for (let i = 0; i < 5; i++) {
                 image(invItems[this.invStart + i], this.x - (200 - i * 100), this.y, 60, 60);
             }
-
-            rect(this.x - 270, this.y, 20);
-            rect(this.x + 270, this.y, 20);
 
             pop();
         }
@@ -87,7 +124,10 @@ class Inventory {
         invItems.push(thing);
     }
 
-    remove(indexOfThing) {
+    remove(thing) {
+        this.invStart--;
+        this.invEnd--;
+        let indexOfThing = invItems.indexOf(thing);
         invItems.splice(indexOfThing, 1);
     }
 
@@ -113,8 +153,23 @@ class Inventory {
         }
         console.log('InvStart', this.invStart, 'InvEnd', this.invEnd);
     }
+}
 
-    manage() {
-        this.display();
+
+function T_INV_addRem() {
+    rect(width / 2, height / 2, 100);
+    rect(width / 3, height / 3, 100);
+}
+
+function T_INV_pressed() {
+    if (mouseX > 330 && mouseX < 430) {
+        if (mouseY > 370 && mouseY < 475) {
+            inv.add(T_img);
+        }
+    }
+    if (mouseX > 220 && mouseX < 320) {
+        if (mouseY > 260 && mouseY < 350) {
+            inv.remove(T_img);
+        }
     }
 }

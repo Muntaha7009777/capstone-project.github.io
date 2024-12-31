@@ -20,3 +20,8 @@ Commit to Github (Or I guess my progress plan)
 - potions
 
 # ############################################################### #
+
+
+If there is time:
+- Add pagination to Inventory
+- Add an easter egg in the Inv icon
