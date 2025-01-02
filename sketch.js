@@ -9,6 +9,7 @@ function preload() {
 
   // invPreLoad();
   splbkPreLoad();
+  // trnkPreLoad();
 }
 
 function setup() {
@@ -17,25 +18,29 @@ function setup() {
 
   // invSetup();
   splbkSetup();
+  // trnkSetup();
 }
 
 function draw() {
-  // interacts with ONLY the "draw()" of every file
+  // interacts with ONLY the "Con()" of every file
   background(220);
 
   // inventoryCon();
   spellBookCon();
+  // trinketsCon();
 
 
   mouseGuide();
-  gridGuide(0);
-
+  gridGuide(4);
 }
 
 
 function mousePressed() {
+  // interacts with ONLY the "Pressed()" of every file
+
   // invPressed();
   splbkPressed();
+  // trnkPressed();
 }
 
 

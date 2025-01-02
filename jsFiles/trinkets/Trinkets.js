@@ -1,14 +1,51 @@
 
+// let weaponList = [];
+// let foodList = [];
+// let itemsList = [];
+
 let weaponList = [];
 let foodList = [];
 let itemsList = [];
-
 
 // Parameters:
 // [ 'WeaponName', [image], 'ToolTip', initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, useBattle() ]
 // [ 'FoodName', [image], 'ToolTip', initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, useEat() ]
 // [ 'Items', [image], 'ToolTip', initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, [if food = useEat() || useMake()] ]
 
+
+
+function trnkPreLoad() {
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 260, 260, 1, 0, 0));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab 1', 390, 290, 1, 0, 0));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword2.png'), 'You can stab 2', 290, 390, 1, 0, 0));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 340, 390, 3, 1, 0));
+
+  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/watermelon.png'), 'Watermelon', 280, 220, 1, 0, 0));
+  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/mushroom.png'), 'Mushroom', 190, 210, 1, 0, 0));
+  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/blueberry.png'), 'Blueberry', 90, 490, 1, 0, 0));
+}
+
+function trnkSetup() {
+  // weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword.png'), 'You can stab', 30, 30, 1, 0, 0));
+}
+
+function trinketsCon() {
+  for (let i = 0; i < weaponList.length; i++) {
+    weaponList[i].manage(weaponList[i]);
+  }
+  for (let i = 0; i < foodList.length; i++) {
+    foodList[i].manage(foodList[i]);
+  }
+}
+
+function trnkPressed() {
+  for (let i = 0; i < weaponList.length; i++) {
+    weaponList[i].click(weaponList, i);
+  }
+  for (let i = 0; i < foodList.length; i++) {
+    foodList[i].click(foodList, i);
+  }
+}
 
 
 
@@ -27,26 +64,33 @@ class Trinkets {
     this.effect = effect;  
   }
 
-  display(x, y) {
-    if (found) {
-      image(this.img, x, y)
+  display() {
+    if (!this.found && currentSet === this.setNum && currentSubSet === this.subSetNum && currentOffSet === this.offSetNum) {
+      imageMode(CENTER);
+      image(this.img, this.initX, this.initY, 40, 40);
     }
-    else {  //initial 'hiding' placement
-      image(this.img, this.initX, this.initY);
-    }
+
   }
 
-  found(thing){
+  foundItem(arrayName, index){
     //zoomed in spiral animation
     this.found = true;
-    //remove from item/food
-    //add to invItems / spellbook -- tab decided by child classes
+    inv.add(arrayName[index]);
+    arrayName.splice(index, 1);
   }
 
-  use(thing) {
-    // button on hover
-    // this.effect
-    // remove from inventory
+  click(arrayName, index) {
+    if (this.found === false) {
+      if (mouseX < this.initX + 20 && mouseX > this.initX -20) {
+        if (mouseY < this.initY + 20 && mouseY > this.initY -20) {
+          this.foundItem(arrayName, index);
+        }
+      }
+    }
+  }
+
+  manage(thing) {
+    this.display();
   }
 }
 
@@ -56,22 +100,12 @@ class Weapon extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
     super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, weaponUsed())
   }
-
-  found() {
-    super.found();
-    // add to invItems[0]
-  }
 }
 
 
 class Food extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
     super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, eat());
-  }
-
-  found() {
-    super.found();
-    // add to invItems[1]
   }
 }
 
@@ -82,8 +116,8 @@ class Items extends Trinkets {
     this.effectPotion = throwInPot();
   }
 
-  found() {
-    super.found();
+  foundItem() {
+    super.foundItem()();
     // add to invItems[2]
   }
 
@@ -95,9 +129,6 @@ class Items extends Trinkets {
     }
   }
 }
-
-
-
 
 
 
