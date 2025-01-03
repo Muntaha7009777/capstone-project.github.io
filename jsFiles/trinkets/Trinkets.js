@@ -31,10 +31,10 @@ function trnkSetup() {
 
 function trinketsCon() {
   for (let i = 0; i < weaponList.length; i++) {
-    weaponList[i].manage(weaponList[i]);
+    weaponList[i].display(weaponList[i]);
   }
   for (let i = 0; i < foodList.length; i++) {
-    foodList[i].manage(foodList[i]);
+    foodList[i].display(foodList[i]);
   }
 }
 
@@ -87,10 +87,6 @@ class Trinkets {
         }
       }
     }
-  }
-
-  manage(thing) {
-    this.display();
   }
 }
 

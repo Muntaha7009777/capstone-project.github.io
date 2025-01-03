@@ -7,32 +7,23 @@ Has:
 */
 
 let splbk;
-let splbkVisible = true;
-let splbkItems = [
-  ['Health', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']],
-  ['Shield', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']],
-  ['Sword', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']],
-  ['Eternity', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']],
-  ['Memory', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']],
-  ['Speed', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']],
-  ['Confusion1', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']],
-  ['Confusion2', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']]
-];
-let T_spell = ['Health', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']]
+let splbkVisible = false;
+let splbkItems = [];
+let T_spell = ['Health', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']];
 
 let splbkIconClose;
 let splbkIconOpen;
 
 
 function splbkPreLoad() {
-  splbkItems[0][2] = (loadImage('/assets/images/splbkTRIAL/healthSpell.png'));
-  splbkItems[1][2] = (loadImage('/assets/images/splbkTRIAL/shieldSpell.png'));
-  splbkItems[2][2] = (loadImage('/assets/images/splbkTRIAL/swordSpell.png'));
-  splbkItems[3][2] = (loadImage('/assets/images/splbkTRIAL/eternitySpell.png'));
-  splbkItems[4][2] = (loadImage('/assets/images/splbkTRIAL/memorySpell.png'));
-  splbkItems[5][2] = (loadImage('/assets/images/splbkTRIAL/speedSpell.png'));
-  splbkItems[6][2] = (loadImage('/assets/images/splbkTRIAL/confusion1Spell.png'));
-  splbkItems[7][2] = (loadImage('/assets/images/splbkTRIAL/confusion2Spell.png'));
+  // splbkItems[0][2] = (loadImage('/assets/images/splbkTRIAL/healthSpell.png'));
+  // splbkItems[1][2] = (loadImage('/assets/images/splbkTRIAL/shieldSpell.png'));
+  // splbkItems[2][2] = (loadImage('/assets/images/splbkTRIAL/swordSpell.png'));
+  // splbkItems[3][2] = (loadImage('/assets/images/splbkTRIAL/eternitySpell.png'));
+  // splbkItems[4][2] = (loadImage('/assets/images/splbkTRIAL/memorySpell.png'));
+  // splbkItems[5][2] = (loadImage('/assets/images/splbkTRIAL/speedSpell.png'));
+  // splbkItems[6][2] = (loadImage('/assets/images/splbkTRIAL/confusion1Spell.png'));
+  // splbkItems[7][2] = (loadImage('/assets/images/splbkTRIAL/confusion2Spell.png'));
 
   T_spell[2] = loadImage('/assets/images/splbkTRIAL/shieldSpell.png');
 
@@ -97,9 +88,11 @@ class Book {
       image(splbkIcon, this.x + 10, this.y, 550, 400);
 
       // display the items
-      this.styleSpellsPage(this.splbkStart, this.x - this.splbkWidth / 2, this.y);
-      if (this.splbkStart !== splbkItems.length - 1) {
-        this.styleSpellsPage(this.splbkStart + 1, this.x + this.splbkWidth / 2, this.y);
+      if (splbkItems.length !== 0) {
+        this.styleSpellsPage(this.splbkStart, this.x - this.splbkWidth / 2, this.y);
+        if (this.splbkStart !== splbkItems.length - 1) {
+          this.styleSpellsPage(this.splbkStart + 1, this.x + this.splbkWidth / 2, this.y);
+        }
       }
 
       // rect(this.x + this.splbkWidth - 40, this.y + this.splbkHeight / 2 - 10, 20, 20);

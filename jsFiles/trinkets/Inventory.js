@@ -13,7 +13,7 @@ Remove (exists for testing purposes):
 
 let inv;
 let invItems = [];
-let invVisible = true;
+let invVisible = false;
 
 let invArrow;
 let invBox;

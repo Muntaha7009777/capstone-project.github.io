@@ -7,40 +7,44 @@
 function preload() {
   // interacts with ONLY the "PreLoad()" of every file
 
-  // invPreLoad();
+  invPreLoad();
   splbkPreLoad();
-  // trnkPreLoad();
+  trnkPreLoad();
+  pagePreLoad();
 }
 
 function setup() {
   // interacts with ONLY the "Setup()" of every file
   createCanvas(windowWidth, windowHeight);
 
-  // invSetup();
+  invSetup();
   splbkSetup();
-  // trnkSetup();
+  trnkSetup();
+  pageSetup()
 }
 
 function draw() {
   // interacts with ONLY the "Con()" of every file
   background(220);
 
-  // inventoryCon();
+  inventoryCon();
   spellBookCon();
-  // trinketsCon();
+  trinketsCon();
+  pageCon()
 
 
   mouseGuide();
-  gridGuide(4);
+  gridGuide(0);
 }
 
 
 function mousePressed() {
   // interacts with ONLY the "Pressed()" of every file
 
-  // invPressed();
+  invPressed();
   splbkPressed();
-  // trnkPressed();
+  trnkPressed();
+  pagePressed()
 }
 
 
