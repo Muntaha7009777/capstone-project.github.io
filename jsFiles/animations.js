@@ -1,15 +1,38 @@
 
+let timer = 0;
+let infoHolder;
+let functionInPlay = nothing;
+
+
+function animationsCon() {
+    functionInPlay(infoHolder);
+}
 
 function eat() {
     // animations
     // increase health or not
+    // play sound
 }
 
 
-function throwInPot() {
-    // animations
+function throwInPotTEXTONLY(t) {
+    functionInPlay = throwInPotTEXTONLY;
+    infoHolder = t; //have to recode this
+    if (timer !== 0) {
+        textSize(20);
+        textAlign(CENTER, CENTER);
+        fill(0);
+        text(('Used '+t), width/2, height-height/3);
+        timer -= 1;
+    } else {
+        functionInPlay = nothing;
+    }
 }
 
+
+function nothing() {
+    
+}
 
 function weaponUsed() {
     // animations

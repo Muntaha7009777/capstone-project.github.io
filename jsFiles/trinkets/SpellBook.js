@@ -61,7 +61,7 @@ function splbkPressed() {
   // mousePressed()
   if (mouseX > width - 80 && (mouseY > 70 && mouseY < 110)) {
     splbkVisible = !splbkVisible;
-    console.log('Splbk', splbkVisible);
+    // console.log('Splbk', splbkVisible);
   }
   splbk.slide();
   // T_BOOK_pressed();
@@ -119,10 +119,10 @@ class Book {
     text(splbkItems[spellNum][0], x - 10, y - this.splbkHeight / 2.5);
 
     // ingredients
-    textAlign(CENTER, TOP);
+    textAlign(LEFT, TOP);
     textSize(10);
     for (let i in splbkItems[spellNum][1]) {
-      text(splbkItems[spellNum][1][i], x - this.splbkHeight / 4, (y - this.splbkHeight / 5) + i * 20, x - 4);
+      text(splbkItems[spellNum][1][i], x - this.splbkHeight / 4, (y - this.splbkHeight / 5) + i * 20);
     }
     // text(splbkItems[spellNum][1], x - this.splbkHeight / 4, y - this.splbkHeight / 4, x - 4);
 
@@ -134,7 +134,7 @@ class Book {
   slide() {
     if (mouseX > this.x - this.splbkWidth +20  && mouseX < this.x - this.splbkWidth + 80) {
       if (mouseY > this.y + this.splbkHeight / 2 - 20 && mouseY < this.y + this.splbkHeight / 2) {
-        console.log('Clicked Left Arrow');
+        // console.log('Clicked Left Arrow');
         if (this.splbkStart !== 0) {
           this.splbkStart -= 2;
         }
@@ -142,13 +142,13 @@ class Book {
     }
     if (mouseX < this.x + this.splbkWidth -20 && mouseX > this.x + this.splbkWidth - 80) {
       if (mouseY > this.y + this.splbkHeight / 2 - 20 && mouseY < this.y + this.splbkHeight / 2) {
-        console.log('Clicked Right Arrow');
+        // console.log('Clicked Right Arrow');
         if (this.splbkStart + 2 < splbkItems.length) {
           this.splbkStart += 2;
         }
       }
     }
-    console.log('SplbkStart', this.splbkStart, 'SplBkItems', splbkItems.length);
+    // console.log('SplbkStart', this.splbkStart, 'SplBkItems', splbkItems.length);
   }
 
   add(thing) {

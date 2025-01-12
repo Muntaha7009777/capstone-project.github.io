@@ -5,7 +5,7 @@
 
 let weaponList = [];
 let foodList = [];
-let itemsList = [];
+let itemList = [];
 
 // Parameters:
 // [ 'WeaponName', [image], 'ToolTip', initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, useBattle() ]
@@ -15,6 +15,10 @@ let itemsList = [];
 
 
 function trnkPreLoad() {
+  
+}
+
+function trnkSetup() {
   weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 260, 260, 1, 0, 0));
   weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab 1', 390, 290, 1, 0, 0));
   weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword2.png'), 'You can stab 2', 290, 390, 1, 0, 0));
@@ -23,10 +27,13 @@ function trnkPreLoad() {
   foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/watermelon.png'), 'Watermelon', 280, 220, 1, 0, 0));
   foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/mushroom.png'), 'Mushroom', 190, 210, 1, 0, 0));
   foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/blueberry.png'), 'Blueberry', 90, 490, 1, 0, 0));
-}
 
-function trnkSetup() {
-  // weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword.png'), 'You can stab', 30, 30, 1, 0, 0));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/clover.png'), 'Clover', 220, 280, 1, 0, 0));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/shard.png'), 'Shard', 110, 270, 1, 0, 0));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/mushroom.png'), 'Mushroom', 290, 210, 1, 0, 0));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/rice.png'), 'Rice', 100, 490, 1, 0, 0));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/gold.png'), 'Gold', 150, 690, 1, 0, 0));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/hibiscus.png'), 'Hibiscus', 170, 490, 1, 0, 0));
 }
 
 function trinketsCon() {
@@ -36,6 +43,9 @@ function trinketsCon() {
   for (let i = 0; i < foodList.length; i++) {
     foodList[i].display(foodList[i]);
   }
+  for (let i = 0; i < itemList.length; i++) {
+    itemList[i].manage(itemList[i]);
+  }
 }
 
 function trnkPressed() {
@@ -44,6 +54,9 @@ function trnkPressed() {
   }
   for (let i = 0; i < foodList.length; i++) {
     foodList[i].click(foodList, i);
+  }
+  for (let i = 0; i < itemList.length; i++) {
+    itemList[i].click(itemList, i);
   }
 }
 
@@ -88,41 +101,49 @@ class Trinkets {
       }
     }
   }
+
+  used() {
+    this.effect();
+    console.log('Effect used: Nomnom');
+  }
 }
 
 
 
 class Weapon extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
-    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, weaponUsed())
+    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, weaponUsed)
   }
 }
 
 
 class Food extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
-    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, eat());
+    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, eat);
   }
 }
 
 
-class Items extends Trinkets {
+class Item extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
-    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, eat());
-    this.effectPotion = throwInPot();
-  }
-
-  foundItem() {
-    super.foundItem()();
-    // add to invItems[2]
+    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, eat);
+    this.effectPotion = throwInPotTEXTONLY;
   }
 
   used() {
     if (potionInitiated) {
-      this.effectPotion();
+      timer = 120;
+      this.effectPotion(this.tooltip);
+      craftScreen.updateList(this.tooltip);
+      console.log('Effect used: Potion');
     } else {
       this.effect();
+      console.log('Effect used: Nomnom');
     }
+  }
+
+  manage() {
+    this.display();
   }
 }
 

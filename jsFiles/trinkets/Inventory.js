@@ -67,7 +67,7 @@ function invPressed() {
     // mousePressed()
     if (mouseX > width - 90 && mouseY < 60) {
         invVisible = !invVisible;
-        console.log('Inventory', invVisible);
+        // console.log('Inventory', invVisible);
     }
     inv.slide();
     inv.click();
@@ -161,7 +161,8 @@ class Inventory {
             for (let i = 0; i < invItems.length; i++) {
                 if (mouseX < (this.x - (this.gap - i * this.invBoxSize)) + 30 && mouseX > (this.x - (this.gap - i * this.invBoxSize)) - 30) {
                     if (mouseY < this.y + 30 && mouseY > this.y - 30) {
-                        this.remove(i);
+                        invItems[i].used();
+                        this.remove(this.invStart + i);
                     }
                 }
             }
@@ -169,6 +170,7 @@ class Inventory {
             for (let i = 0; i < 5; i++) {
                 if (mouseX < (this.x - (this.gap - i * this.invBoxSize)) + 30 && mouseX > (this.x - (this.gap - i * this.invBoxSize)) - 30) {
                     if (mouseY < this.y + 30 && mouseY > this.y - 30) {
+                        invItems[this.invStart + i].used();
                         this.remove(this.invStart + i);
                     }
                 }
@@ -182,16 +184,16 @@ class Inventory {
 
     remove(indexOfThing) {
         invItems.splice(indexOfThing, 1);
-        if (invItems.length > 5) {
+        if (invItems.length > 5 && this.invStart !== 0) {
             this.invStart--;
-            this.invEnd--;
+            // this.invEnd--;
         }
     }
 
     slide() {
         if (mouseX > this.x - 280 && mouseX < this.x - 260) {
             if (mouseY > this.y - 10 && mouseY < this.y + 10) {
-                console.log('Clicked Left Arrow');
+                // console.log('Clicked Left Arrow');
                 if (this.invStart !== 0) {
                     this.invStart--;
                     this.invEnd--;
@@ -201,14 +203,14 @@ class Inventory {
 
         if (mouseX > this.x + 260 && mouseX < this.x + 280) {
             if (mouseY > this.y - 10 && mouseY < this.y + 10) {
-                console.log('Clicked Right Arrow');
+                // console.log('Clicked Right Arrow');
                 if (this.invEnd !== invItems.length) {
                     this.invStart++;
                     this.invEnd++;
                 }
             }
         }
-        console.log('InvStart', this.invStart, 'InvEnd', this.invEnd);
+        // console.log('InvStart', this.invStart, 'InvEnd', this.invEnd);
     }
 
 }

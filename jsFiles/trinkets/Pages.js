@@ -1,13 +1,13 @@
 
 let pagesContent = [
-    ['Health', ['ruce', 'mushroom', 'clover', 'gold', 'hibiscus']],
-    ['Shield', ['wood', 'R', 'D', 'E', 'R']],
-    ['Sword', ['shard', 'iron', 'wood', 'bone', 'echinacea']],
-    ['Eternity', ['eyeball', 'blood', 'sand', 'gold', 'salamander', 'honey']],
-    ['Memory', ['clover', 'mushroom', 'iron', 'honey', 'bat', 'dust']],
-    ['Speed', ['sand', 'eyeball', 'gold', 'chemical', 'blood', 'clover']],
-    ['Confusion1', ['wood', 'mushroom', 'clover', 'salamander', 'bat']],
-    ['Confusion2', ['chemical', 'newt', 'clover', 'bone', 'eyeball']]
+    ['Health', ['Rice', 'Mushroom', 'Clover', 'Gold', 'Hibiscus']],
+    ['Shield', ['Wood', 'Mushroom', 'Clover', 'Gold', 'Hibiscus']],
+    ['Sword', ['Shard', 'Iron', 'Wood', 'Bone', 'Echinacea']],
+    ['Eternity', ['Eyeball', 'Blood', 'Sand', 'Gold', 'Salamander', 'Honey']],
+    ['Memory', ['Clover', 'Mushroom', 'Iron', 'Honey', 'Bat', 'Dust']],
+    ['Speed', ['Sand', 'Eyeball', 'Gold', 'chemical', 'Blood', 'Clover']],
+    ['Confusion1', ['Wood', 'Mushroom', 'Clover', 'Salamander', 'Bat']],
+    ['Confusion2', ['chemical', 'Newt', 'Clover', 'Bone', 'Eyeball']]
 ]
 // Parameters:
 // [ 'Heading', 'Sequence of Ingredients', [image] ]
@@ -17,9 +17,6 @@ let pagesList = [];
 // [ 'SpellName', [Content], [image], initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, throwInPot() ]
 //                 ^ this content is the only thing being inserted into splbkItems (to take up less space)
 
-let potions = [];
-// Parameters:
-// [ 'PotionName=SpellName', [image], effect() ]
 
 
 
@@ -62,8 +59,8 @@ function pagePressed() {
 
 
 class TemporaryPages extends Trinkets {
-    constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, effect, content) {
-        super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, throwInPot());
+    constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, content) {
+        super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, nothing());
         this.content = content;
     }
 
@@ -77,25 +74,5 @@ class TemporaryPages extends Trinkets {
         splbk.add(pagesContent[index]);
         pagesContent.splice(index, 1);
         pagesList.splice(index, 1);
-    }
-}
-
-
-
-class Potions {
-    constructor(name, img, effect) {
-        this.name = name;
-        this.img = img;
-        this.effect = effect;
-    }
-
-    display(x, y) {
-        image(this.img, x, y)
-    }
-
-    use(thing) {
-        // button on hover
-        // this.effect
-        // remove from inventory
     }
 }

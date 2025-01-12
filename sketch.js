@@ -1,13 +1,16 @@
 // GAME NAME
 // Muntaha Chowdhury
-// [2024] November 27 - ???
+// [2024] November 27 - January ??
 // Capstone Project
+
+// let someRandomVariable;
 
 
 function preload() {
   // interacts with ONLY the "PreLoad()" of every file
 
   invPreLoad();
+  potionPreLoad();
   splbkPreLoad();
   trnkPreLoad();
   pagePreLoad();
@@ -18,23 +21,29 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   invSetup();
+  potionSetup();
   splbkSetup();
   trnkSetup();
-  pageSetup()
+  pageSetup();
 }
 
 function draw() {
   // interacts with ONLY the "Con()" of every file
   background(220);
 
+  potionCon();
+  animationsCon();
   inventoryCon();
   spellBookCon();
-  trinketsCon();
-  pageCon()
+  if (!potionInitiated) {
+    trinketsCon();
+    pageCon();
+  }
 
 
   mouseGuide();
-  gridGuide(0);
+  gridGuide(3);
+  gridGuide(6);
 }
 
 
@@ -42,9 +51,12 @@ function mousePressed() {
   // interacts with ONLY the "Pressed()" of every file
 
   invPressed();
+  potionPressed();
   splbkPressed();
-  trnkPressed();
-  pagePressed()
+  if (!potionInitiated) {
+    trnkPressed();
+    pagePressed()
+  }
 }
 
 
