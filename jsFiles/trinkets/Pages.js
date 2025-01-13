@@ -32,10 +32,10 @@ function pagePreLoad() {
 }
 
 function pageSetup() {
-    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page0.png') ,'Spell', 160, 260, 1, 0, 0, pagesContent[0]));
-    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page1.png') ,'Spell 1', 390, 190, 1, 0, 0, pagesContent[1]));
-    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page2.png') ,'Spell 2', 190, 390, 1, 0, 0, pagesContent[2]));
-    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page3.png') ,'Spell', 340, 390, 3, 1, 0, pagesContent[3]));
+    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page0.png') ,'Spell', 160, 260, 1, 1, pagesContent[0]));
+    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page1.png') ,'Spell 1', 390, 190, 1, 1, pagesContent[1]));
+    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page2.png') ,'Spell 2', 190, 390, 1, 1, pagesContent[2]));
+    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page3.png') ,'Spell', 340, 390, 3, 1, pagesContent[3]));
 }
 
 function pageCon() {
@@ -59,8 +59,8 @@ function pagePressed() {
 
 
 class TemporaryPages extends Trinkets {
-    constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, content) {
-        super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, nothing());
+    constructor(name, img, tooltip, initX, initY, setNum, subSetNum, content) {
+        super(name, img, tooltip, initX, initY, setNum, subSetNum, nothing());
         this.content = content;
     }
 

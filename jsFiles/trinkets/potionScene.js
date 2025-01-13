@@ -1,5 +1,5 @@
 
-let potionInitiated = true;
+let potionInitiated = false;
 let itemSequence = [];
 let potionsList = []
 // Possible Parameters:

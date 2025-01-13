@@ -9,28 +9,33 @@
 function preload() {
   // interacts with ONLY the "PreLoad()" of every file
 
+  setPreLoad();
   invPreLoad();
   potionPreLoad();
   splbkPreLoad();
   trnkPreLoad();
   pagePreLoad();
+  diaPreLoad();
 }
 
 function setup() {
   // interacts with ONLY the "Setup()" of every file
   createCanvas(windowWidth, windowHeight);
 
+  setSetup();
   invSetup();
   potionSetup();
   splbkSetup();
   trnkSetup();
   pageSetup();
+  diaSetup();
 }
 
 function draw() {
   // interacts with ONLY the "Con()" of every file
   background(220);
 
+  setCon();
   potionCon();
   animationsCon();
   inventoryCon();
@@ -39,10 +44,9 @@ function draw() {
     trinketsCon();
     pageCon();
   }
-
+  dialogueCon();
 
   mouseGuide();
-  gridGuide(3);
   gridGuide(6);
 }
 
@@ -50,6 +54,7 @@ function draw() {
 function mousePressed() {
   // interacts with ONLY the "Pressed()" of every file
 
+  setPressed();
   invPressed();
   potionPressed();
   splbkPressed();
@@ -57,6 +62,11 @@ function mousePressed() {
     trnkPressed();
     pagePressed()
   }
+  diaPressed();
+}
+
+function keyPressed() {
+  T_moveCharKeys();
 }
 
 

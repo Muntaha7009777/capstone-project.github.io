@@ -19,21 +19,21 @@ function trnkPreLoad() {
 }
 
 function trnkSetup() {
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 260, 260, 1, 0, 0));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab 1', 390, 290, 1, 0, 0));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword2.png'), 'You can stab 2', 290, 390, 1, 0, 0));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 340, 390, 3, 1, 0));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 260, 260, 1, 1));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab 1', 390, 290, 1, 1));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword2.png'), 'You can stab 2', 290, 390, 1, 1));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 340, 390, 3, 1));
 
-  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/watermelon.png'), 'Watermelon', 280, 220, 1, 0, 0));
-  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/mushroom.png'), 'Mushroom', 190, 210, 1, 0, 0));
-  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/blueberry.png'), 'Blueberry', 90, 490, 1, 0, 0));
+  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/watermelon.png'), 'Watermelon', 280, 220, 1, 1));
+  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/mushroom.png'), 'Mushroom', 190, 210, 1, 1));
+  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/blueberry.png'), 'Blueberry', 90, 490, 1, 1));
 
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/clover.png'), 'Clover', 220, 280, 1, 0, 0));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/shard.png'), 'Shard', 110, 270, 1, 0, 0));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/mushroom.png'), 'Mushroom', 290, 210, 1, 0, 0));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/rice.png'), 'Rice', 100, 490, 1, 0, 0));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/gold.png'), 'Gold', 150, 690, 1, 0, 0));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/hibiscus.png'), 'Hibiscus', 170, 490, 1, 0, 0));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/clover.png'), 'Clover', 220, 280, 1, 1));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/shard.png'), 'Shard', 110, 270, 1, 1));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/mushroom.png'), 'Mushroom', 290, 210, 1, 1));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/rice.png'), 'Rice', 100, 490, 1, 1));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/gold.png'), 'Gold', 150, 690, 1, 1));
+  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/hibiscus.png'), 'Hibiscus', 170, 490, 1, 1));
 }
 
 function trinketsCon() {
@@ -64,7 +64,7 @@ function trnkPressed() {
 
 class Trinkets {
 
-  constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, effect) {
+  constructor(name, img, tooltip, initX, initY, setNum, subSetNum, effect) {
     this.name = name;
     this.img = img;
     this.tooltip = tooltip;
@@ -72,13 +72,12 @@ class Trinkets {
     this.initY = initY;
     this.setNum = setNum;
     this.subSetNum = subSetNum;
-    this.offSetNum = offSetNum;
     this.found = false;
     this.effect = effect;  
   }
 
   display() {
-    if (!this.found && currentSet === this.setNum && currentSubSet === this.subSetNum && currentOffSet === this.offSetNum) {
+    if (!this.found && currentSet === this.setNum && currentSubSet === this.subSetNum) {
       imageMode(CENTER);
       image(this.img, this.initX, this.initY, 40, 40);
     }
@@ -111,22 +110,22 @@ class Trinkets {
 
 
 class Weapon extends Trinkets {
-  constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
-    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, weaponUsed)
+  constructor(name, img, tooltip, initX, initY, setNum, subSetNum) {
+    super(name, img, tooltip, initX, initY, setNum, subSetNum, weaponUsed)
   }
 }
 
 
 class Food extends Trinkets {
-  constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
-    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, eat);
+  constructor(name, img, tooltip, initX, initY, setNum, subSetNum) {
+    super(name, img, tooltip, initX, initY, setNum, subSetNum, eat);
   }
 }
 
 
 class Item extends Trinkets {
-  constructor(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum) {
-    super(name, img, tooltip, initX, initY, setNum, subSetNum, offSetNum, eat);
+  constructor(name, img, tooltip, initX, initY, setNum, subSetNum) {
+    super(name, img, tooltip, initX, initY, setNum, subSetNum, eat);
     this.effectPotion = throwInPotTEXTONLY;
   }
 
