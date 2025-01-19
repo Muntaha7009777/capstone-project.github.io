@@ -5,6 +5,11 @@
 
 // let someRandomVariable;
 
+let T_x = 0;
+let T_y = 0;
+let charX = T_x;
+let charY = T_y;
+let charBod = 30;
 
 function preload() {
   // interacts with ONLY the "PreLoad()" of every file
@@ -16,6 +21,7 @@ function preload() {
   trnkPreLoad();
   pagePreLoad();
   diaPreLoad();
+  batPreLoad();
 }
 
 function setup() {
@@ -29,6 +35,7 @@ function setup() {
   trnkSetup();
   pageSetup();
   diaSetup();
+  batSetup();
 }
 
 function draw() {
@@ -36,10 +43,13 @@ function draw() {
   background(220);
 
   setCon();
-  potionCon();
   animationsCon();
-  inventoryCon();
-  spellBookCon();
+  battleCon();
+  if (!battleState) {
+    inventoryCon();
+    spellBookCon();
+    potionCon();
+  }
   if (!potionInitiated) {
     trinketsCon();
     pageCon();
@@ -48,6 +58,8 @@ function draw() {
 
   mouseGuide();
   gridGuide(6);
+  T_showSetInfo();
+  T_setChangeWithChar();
 }
 
 
@@ -55,14 +67,17 @@ function mousePressed() {
   // interacts with ONLY the "Pressed()" of every file
 
   setPressed();
-  invPressed();
-  potionPressed();
-  splbkPressed();
+  if (!battleState) {
+    invPressed();
+    potionPressed();
+    splbkPressed();
+    diaPressed();
+  }
   if (!potionInitiated) {
     trnkPressed();
     pagePressed()
   }
-  diaPressed();
+  batPressed();
 }
 
 function keyPressed() {
@@ -119,6 +134,30 @@ function gridGuide(a) {
   stroke(0);
 }
 
+
+function T_setChangeWithChar() {
+  text(T_x +', '+''+ T_y, T_x, T_y-20 );
+  circle(T_x, T_y, 20);
+}
+
+function T_moveCharKeys() {
+  if (keyCode === LEFT_ARROW) {
+    T_x -= 50;
+    charX = T_x;
+  }
+  if (keyCode === RIGHT_ARROW) {
+    T_x += 50;
+    charX = T_x;
+  }
+  if (keyCode === UP_ARROW) {
+    T_y -= 50;
+    charY = T_y;
+  }
+  if (keyCode === DOWN_ARROW) {
+    T_y += 50;
+    charY = T_y;
+  }
+}
 
 ////////////////////////////////////////////////////
 // charPreLoad();

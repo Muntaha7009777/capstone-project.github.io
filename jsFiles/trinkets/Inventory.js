@@ -161,8 +161,10 @@ class Inventory {
             for (let i = 0; i < invItems.length; i++) {
                 if (mouseX < (this.x - (this.gap - i * this.invBoxSize)) + 30 && mouseX > (this.x - (this.gap - i * this.invBoxSize)) - 30) {
                     if (mouseY < this.y + 30 && mouseY > this.y - 30) {
-                        invItems[i].used();
-                        this.remove(this.invStart + i);
+                        if (!(invItems[i] instanceof Weapon)) {
+                            invItems[i].used();
+                            this.remove(this.invStart + i);
+                        }
                     }
                 }
             }
@@ -170,8 +172,10 @@ class Inventory {
             for (let i = 0; i < 5; i++) {
                 if (mouseX < (this.x - (this.gap - i * this.invBoxSize)) + 30 && mouseX > (this.x - (this.gap - i * this.invBoxSize)) - 30) {
                     if (mouseY < this.y + 30 && mouseY > this.y - 30) {
-                        invItems[this.invStart + i].used();
-                        this.remove(this.invStart + i);
+                        if (!(invItems[i] instanceof Weapon)) {
+                            invItems[i].used();
+                            this.remove(this.invStart + i);
+                        }
                     }
                 }
             }

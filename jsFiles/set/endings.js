@@ -63,3 +63,6 @@ function endingDialogue() {
 
 
 
+function endingManager() {
+
+}

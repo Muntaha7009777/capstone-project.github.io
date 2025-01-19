@@ -19,11 +19,12 @@ function trnkPreLoad() {
 }
 
 function trnkSetup() {
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 260, 260, 1, 1));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab 1', 390, 290, 1, 1));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword2.png'), 'You can stab 2', 290, 390, 1, 1));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 340, 390, 3, 1));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 260, 260, 1, 1, 5));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab 1', 390, 290, 1, 1, 5));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword2.png'), 'You can stab 2', 290, 390, 1, 1, 5));
+  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 340, 390, 3, 1, 5));
 
+  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/watermelon.png'), 'Watermelon', 280, 320, 1, 0));
   foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/watermelon.png'), 'Watermelon', 280, 220, 1, 1));
   foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/mushroom.png'), 'Mushroom', 190, 210, 1, 1));
   foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/blueberry.png'), 'Blueberry', 90, 490, 1, 1));
@@ -77,9 +78,14 @@ class Trinkets {
   }
 
   display() {
+    imageMode(CENTER);
     if (!this.found && currentSet === this.setNum && currentSubSet === this.subSetNum) {
-      imageMode(CENTER);
-      image(this.img, this.initX, this.initY, 40, 40);
+      if (this.subSetNum === 0 && battleState && monsterList[currentSet-1].defeated) {
+        image(this.img, this.initX, this.initY, 40, 40);
+      } 
+      else if (this.subSetNum !== 0) {
+        image(this.img, this.initX, this.initY, 40, 40);
+      } 
     }
 
   }
@@ -110,8 +116,9 @@ class Trinkets {
 
 
 class Weapon extends Trinkets {
-  constructor(name, img, tooltip, initX, initY, setNum, subSetNum) {
-    super(name, img, tooltip, initX, initY, setNum, subSetNum, weaponUsed)
+  constructor(name, img, tooltip, initX, initY, setNum, subSetNum, value) {
+    super(name, img, tooltip, initX, initY, setNum, subSetNum, strike)
+    this.value = value;
   }
 }
 

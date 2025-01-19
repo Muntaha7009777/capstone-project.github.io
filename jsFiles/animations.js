@@ -34,7 +34,7 @@ function nothing() {
     
 }
 
-function weaponUsed() {
+function strike() {
     // animations
     // decrease monster health
 }
