@@ -5,11 +5,6 @@
 
 // let someRandomVariable;
 
-let T_x = 0;
-let T_y = 0;
-let charX = T_x;
-let charY = T_y;
-let charBod = 30;
 
 function preload() {
   // interacts with ONLY the "PreLoad()" of every file
@@ -22,6 +17,7 @@ function preload() {
   pagePreLoad();
   diaPreLoad();
   batPreLoad();
+  charPreLoad();
 }
 
 function setup() {
@@ -36,6 +32,7 @@ function setup() {
   pageSetup();
   diaSetup();
   batSetup();
+  charSetup();
 }
 
 function draw() {
@@ -55,11 +52,12 @@ function draw() {
     pageCon();
   }
   dialogueCon();
+  charCon();
 
   mouseGuide();
   gridGuide(6);
-  T_showSetInfo();
-  T_setChangeWithChar();
+  // T_showSetInfo();
+  // T_setChangeWithChar();
 }
 
 
@@ -78,10 +76,12 @@ function mousePressed() {
     pagePressed()
   }
   batPressed();
+  charPressed();
 }
 
 function keyPressed() {
-  T_moveCharKeys();
+  // T_moveCharKeys();
+  charKey();
 }
 
 
@@ -135,29 +135,29 @@ function gridGuide(a) {
 }
 
 
-function T_setChangeWithChar() {
-  text(T_x +', '+''+ T_y, T_x, T_y-20 );
-  circle(T_x, T_y, 20);
-}
+// function T_setChangeWithChar() {
+//   text(T_x +', '+''+ T_y, T_x, T_y-20 );
+//   circle(T_x, T_y, 20);
+// }
 
-function T_moveCharKeys() {
-  if (keyCode === LEFT_ARROW) {
-    T_x -= 50;
-    charX = T_x;
-  }
-  if (keyCode === RIGHT_ARROW) {
-    T_x += 50;
-    charX = T_x;
-  }
-  if (keyCode === UP_ARROW) {
-    T_y -= 50;
-    charY = T_y;
-  }
-  if (keyCode === DOWN_ARROW) {
-    T_y += 50;
-    charY = T_y;
-  }
-}
+// function T_moveCharKeys() {
+//   if (keyCode === LEFT_ARROW) {
+//     T_x -= 50;
+//     charX = T_x;
+//   }
+//   if (keyCode === RIGHT_ARROW) {
+//     T_x += 50;
+//     charX = T_x;
+//   }
+//   if (keyCode === UP_ARROW) {
+//     T_y -= 50;
+//     charY = T_y;
+//   }
+//   if (keyCode === DOWN_ARROW) {
+//     T_y += 50;
+//     charY = T_y;
+//   }
+// }
 
 ////////////////////////////////////////////////////
 // charPreLoad();

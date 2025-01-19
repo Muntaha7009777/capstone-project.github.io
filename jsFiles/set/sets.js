@@ -53,6 +53,7 @@ function setSetup() {
 function setCon() {
   setDisplay();
   setChangeHandler();
+  T_showSetInfo();
 }
 
 function setPressed() {
@@ -218,6 +219,7 @@ function setChangeHandler() {
 
 function T_showSetInfo() {
   fill('yellow');
+  textSize(13);
   text('Set: ' + currentSet, 39, 20);
   text('Subset: ' + currentSubSet, 20, 40);
 }

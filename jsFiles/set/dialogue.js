@@ -64,7 +64,7 @@ function drawDiaBox() {
 
   textAlign(CENTER, CENTER);
   textSize(20);
-  text('????', width/5, height-height/4);
+  text('????', width/5, (height-height/6)-62);
   pop();
 }
 
@@ -85,7 +85,6 @@ function showDialogue(dias) {
 }
 
 function animateText(line) {
-  console.log(line);
   text(  line.substring(0, charTyped+1)  , width/2, height-height/7, 400, 110);
   charTyped++;
 }

@@ -1,147 +1,186 @@
 
-let selChars = [];
-let charImages = [];
+let charImgs = [
+  [], //idle
+  [], //walk
+  [], //run
+  [], //jump
+  []  //dead
+];
 let char;
-let charSelected = false;
+let charX = 0;
+let charY = 0;
+let moveCharBy = 1;
+let charBod = 30;
 
-let NUM_CHARS = 3;
-let NUM_IDLE = 6;
-let NUM_MOVE = 8;
-let NUM_FALL = 5;
-let NUM_ATTK = 3;
-let NUM_JUMP = 8;
-
-let moveCharBy = 5;
-
-// char = [
-//         [   idle   ]  0
-//         [  moving  ]  1
-//         [  falling ]  2
-//         [  magic~  ]  3
-//         [  jumping ]  4
-// ]
 
 function charPreLoad() {
-  // preload()
-  for (let i = 0; i < NUM_CHARS; i++) {
-    selChars.push(loadImage('/assets/images/characters/preview' + i + '.png'));
+  for (let i=1; i<=22; i++) {
+    charImgs[0].push(loadImage("/assets/images/characters/idle/"+i+".png"));
+  }
+  for (let i=1; i<=4; i++) {
+    charImgs[1].push(loadImage("/assets/images/characters/walk/"+i+".png"));
+  }
+  for (let i=1; i<=8; i++) {
+    charImgs[2].push(loadImage("/assets/images/characters/run/"+i+".png"));
+  }
+  for (let i=1; i<=8; i++) {
+    charImgs[3].push(loadImage("/assets/images/characters/jump/"+i+".png"));
+  }
+  for (let i=1; i<=3; i++) {
+    charImgs[4].push(loadImage("/assets/images/characters/dead/"+i+".png"));
   }
 }
 
-function displayPreviewChar() {
-  imageMode(CENTER);
-  tint('grey');
-  image(selChars[0], width / 4, height / 2);
-  image(selChars[1], width / 2, height / 2);
-  image(selChars[2], width - width / 4, height / 2);
 
-  // check selection intention
-  if (mouseY > height / 3 && mouseY < height - height / 3) {
-    if (mouseX < width / 4) {
-      noTint();
-      image(selChars[0], width / 4, height / 2);
-      if (mouseIsPressed) {
-        char = new Char(0);
-        char.charLoad();
-      }
-    }
-    else if (mouseX > width / 4 && mouseX < width - width / 4) {
-      noTint();
-      image(selChars[0], width / 2, height / 2);
-      if (mouseIsPressed) {
-        char = new Char(1);
-        char.charLoad();
-      }
-    }
-    else {
-      noTint();
-      image(selChars[0], width - width / 4, height / 2);
-      if (mouseIsPressed) {
-        char = new Char(2);
-        char.charLoad();
-      }
-    }
-  }
+function charSetup() {
+  charX = width/2;
+  charY = height/2;
+  char = new Char(charX, charY, charImgs)
 }
+
+
+function charCon() {
+  // charSelection();
+  char.manage();
+  T_showCharInfo();
+}
+
+
+function charPressed() {
+
+}
+
+function charKey() {
+  char.charKeyClick();
+}
+
+
+
+// Once upon a time, you could select your character.  
+// I know you are reading this Mr.Scott. 
+// I decided to keep this part because I really liked it.
+// But refining it is (or I guess 'was') not on my priority list.
+// ;-;
+// function charSelection() {
+//   imageMode(CENTER);
+//   tint('grey');
+//   image(selChars[0], width / 4, height / 2);
+//   image(selChars[1], width / 2, height / 2);
+//   image(selChars[2], width - width / 4, height / 2);
+
+//   // check selection intention
+//   if (mouseY > height / 3 && mouseY < height - height / 3) {
+//     if (mouseX < width / 4) {
+//       noTint();
+//       image(selChars[0], width / 4, height / 2);
+//       if (mouseIsPressed) {
+//         char = new Char(0);
+//         char.charLoad();
+//       }
+//     }
+//     else if (mouseX > width / 4 && mouseX < width - width / 4) {
+//       noTint();
+//       image(selChars[0], width / 2, height / 2);
+//       if (mouseIsPressed) {
+//         char = new Char(1);
+//         char.charLoad();
+//       }
+//     }
+//     else {
+//       noTint();
+//       image(selChars[0], width - width / 4, height / 2);
+//       if (mouseIsPressed) {
+//         char = new Char(2);
+//         char.charLoad();
+//       }
+//     }
+//   }
+// }
 
 
 
 class Char {
-  constructor(charNum) {
-    this.charNum = charNum;
-    this.charX = width/2;
-    this.charY = height/2;
-  }
+  constructor(x, y, images) {
+    this.x = x;
+    this.y = y;
 
-  charLoad() {
-    charSelected = true;
-    charImages.push(selChars[this.charNum]);
-    // for (let i = 0; i < NUM_IDLE; i++) {
-    //   char[0].push(loadImage('assets/images/characters/' + charNum + '/idle' + i + '.png'));
-    // }
-    // for (let i = 0; i < NUM_MOVE; i++) {
-    //   char[1].push(loadImage('assets/images/characters/' + charNum + '/move' + i + '.png'));
-    // }
-    // for (let i = 0; i < NUM_FALL; i++) {
-    //   char[2].push(loadImage('assets/images/characters/' + charNum + '/fall' + i + '.png'));
-    // }
-    // for (let i = 0; i < NUM_ATTK; i++) {
-    //   char[3].push(loadImage('assets/images/characters/' + charNum + '/attk' + i + '.png'));
-    // }
-    // for (let i = 0; i < NUM_JUMP; i++) {
-    //   char[4].push(loadImage('assets/images/characters/' + charNum + '/jump' + i + '.png'));
-    // }
+    this.images = images;
+    this.imgIndex = 0;
+    this.currentImg = 0;  //0- idle  1-walk  2-run  3-fall  4-jump  5-dead
   }
 
   display() {
-    image(charImages[0], this.charX, this.charY, 50, 50);
+    if (!potionInitiated) {
+      image(this.images[this.currentImg][this.imgIndex], this.x, this.y, 50, 50);
+
+      if (this.currentImg !== 2) {
+        if (frameCount%20 === 0) {
+          this.imgIndex++;
+        }
+      }
+      else if (frameCount%4 === 0) {
+        this.imgIndex++;
+      }
+
+      if (this.imgIndex > this.images[this.currentImg].length-1) {
+        this.imgIndex = 0;
+      }
+    }
   }
 
   move() {
     if (keyIsPressed) {
-      if (keyCode === UP_ARROW && this.charY > 0) {
-        this.charY -= moveCharBy;
+      if (keyCode === UP_ARROW && this.y > 0) {
+        this.y -= moveCharBy;
       }
-      else if (keyCode === DOWN_ARROW && this.charY < height) {
-        this.charY += moveCharBy;
+      else if (keyCode === DOWN_ARROW && this.y < height) {
+        this.y += moveCharBy;
       }
-      else if (keyCode === LEFT_ARROW && this.charX > 0) {
-        this.charX -= moveCharBy;
+      else if (keyCode === LEFT_ARROW && this.x > 0) {
+        this.x -= moveCharBy;
       }
-      else if (keyCode === RIGHT_ARROW && this.charX < width) {
-        this.charX += moveCharBy;
+      else if (keyCode === RIGHT_ARROW && this.x < width) {
+        this.x += moveCharBy;
       }
+      charX = this.x;
+      charY = this.y;
     }
   }
 
-  attack() {
-    // will do some animation here
-    background(255);
+  decideCharacterAnimation() {
+    if (keyIsPressed) {
+      if (keyCode === RIGHT_ARROW || keyCode === LEFT_ARROW) {
+        if (moveCharBy > 5) this.currentImg = 2;
+        else this.currentImg = 1;
+      }
+      if (keyCode === 32) this.currentImg = 3;
+    }
+    // else if (ending5) {
+
+    // }
+    else {
+      this.currentImg = 0;
+    }
   }
 
-  jump() {
-    // will do some animation here
-    background('purple');
-  }
-
-  action() {
-    if (keyCode === 77) {
-      this.attack();
-    }
-    if (keyCode === 32) {
-      this.jump();
-    }
+  charKeyClick() {
+    this.imgIndex = 0;
   }
 
   manage() {
     this.display();
     this.move();
-    this.action();
+    this.decideCharacterAnimation();
   }
 }
 
 
-
+function T_showCharInfo() {
+  fill('lightgreen');
+  textSize(13);
+  text('CharX: ' + charX, 25, 60);
+  text('CharY: ' + charY, 25, 80);
+}
 
 
 
