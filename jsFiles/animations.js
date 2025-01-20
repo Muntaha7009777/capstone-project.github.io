@@ -21,8 +21,8 @@ function throwInPotTEXTONLY(t) {
     if (timer !== 0) {
         textSize(20);
         textAlign(CENTER, CENTER);
-        fill(0);
-        text(('Used '+t), width/2, height-height/3);
+        fill(255);
+        text(('Used '+t), width/2, height-height/2);
         timer -= 1;
     } else {
         functionInPlay = nothing;
@@ -44,41 +44,3 @@ function found() {
     // when some object is found
 }
 
-
-// ++++++++++++++++++++++++++++++++
-//  Character
-// ++++++++++++++++++++++++++++++++
-
-function charIdle() {
-
-}
-
-
-function charHurt() {
-
-}
-
-
-function charFell() {
-
-}
-
-
-
-// ++++++++++++++++++++++++++++++++
-//  Monsters
-// ++++++++++++++++++++++++++++++++
-
-function monsterIdle(monsterNum) {
-
-}
-
-
-function monsterAttack(monsterNum) {
-
-}
-
-
-function monsterHurt(monsterNum) {
-
-}

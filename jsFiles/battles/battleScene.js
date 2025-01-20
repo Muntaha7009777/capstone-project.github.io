@@ -17,9 +17,6 @@ let monsterList = [];
 // Possible Parameters:
 //  [ 'Name', XP, attackMethod(), img ];
 
-let T_charFullHealth = 100;
-let T_charHealth = 70; //should be multiples of 5
-let T_perHeartHealth = 100/5;
 
 
 function batPreLoad() {
@@ -108,8 +105,8 @@ class FightOp {
 
     checkState() {
         if (this.setNum === currentSet && this.subsetNum === currentSubSet) {
-            if (charX < this.eX+charBod && charX > this.eX-charBod) {
-                if (charY < this.eY+charBod && charY > this.eY-charBod) {
+            if (charX < this.eX+30 && charX > this.eX-30) {
+                if (charY < this.eY+30 && charY > this.eY-30) {
                     currentSubSet = 0;      //subset 0 means battle scene
                     battleState = true;
     
@@ -134,13 +131,18 @@ class FightOp {
             }
         }
 
-        if (T_charHealth <= 0 || monsterList[currentSet-1].defeated) {
+        if ( monsterList[currentSet-1].defeated) {
             if (charX < this.rX+charBod && charX > this.rX-charBod) {
                 if (charY < this.rY+charBod && charY > this.rY-charBod) {
                     battleState = false;
                     currentSubSet = this.subsetNum;
                 }
             }
+        }
+
+        if (char.health <= 0) {
+            battleState = false;
+            currentSubSet = this.subsetNum;
         }
     }
 
@@ -155,16 +157,16 @@ class FightOp {
 
 
         //character
-        for (let i=T_perHeartHealth; i<T_charFullHealth+20; i+=T_perHeartHealth) {
+        for (let i=char.perHeart; i<char.fullHealth+20; i+=char.perHeart) {
             // If no health, no hearts
-            if (T_charHealth === 0) {
+            if (char.health === 0) {
                 image(heartLost, 40, (height/6)+i*2, 45, 40);
             }
             
             // if health less than counter
-            else if (i > T_charHealth) {
-                let diff = i - T_charHealth;
-                if (diff < T_perHeartHealth) {
+            else if (i > char.health) {
+                let diff = i - char.health;
+                if (diff < char.perHeart) {
                     image(heartHalf, 40, (height/6)+i*2, 40, 40);
                 }
                 else {
@@ -180,6 +182,11 @@ class FightOp {
 
     manXPBars() {
         if (this.turnTimer === 0) {
+            if (this.hasSword === false) {
+                //ending 4
+                char.health = 0;
+            }
+
             if (monsterList[currentSet-1].defeated === false && this.fightInitiated === false) {
                 this.turn = 1;
                 this.fightInitiated = true;
@@ -204,10 +211,6 @@ class FightOp {
     }
 
     monsHit() {
-        //reduce health by %
-        if (this.hasSword === false) {
-            T_charHealth = 0;
-        }
 
         let damageIntended = monsterList[currentSet-1].damage;
         let chanceOfHit = monsterList[currentSet-1].chancePercent;
@@ -216,10 +219,10 @@ class FightOp {
         console.log(chance);
         if (chance === chanceOfHit) {
             if (this.hasShield) {
-                T_charHealth -= damageIntended - ((value*damageIntended)/100);  //deflect a percentage of the damage with shield
+                char.health -= damageIntended - ((value*damageIntended)/100);  //deflect a percentage of the damage with shield
             }
             else {
-                T_charHealth -= damageIntended;
+                char.health -= damageIntended;
             }
         }
     }

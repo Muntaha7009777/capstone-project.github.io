@@ -3,12 +3,16 @@
 // [2024] November 27 - January ??
 // Capstone Project
 
-// let someRandomVariable;
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
 
 function preload() {
   // interacts with ONLY the "PreLoad()" of every file
 
+  musicPreLoad();
+  homePreLoad();
   setPreLoad();
   invPreLoad();
   potionPreLoad();
@@ -18,12 +22,15 @@ function preload() {
   diaPreLoad();
   batPreLoad();
   charPreLoad();
+  settingsPreLoad();
 }
 
 function setup() {
   // interacts with ONLY the "Setup()" of every file
   createCanvas(windowWidth, windowHeight);
 
+  musicSetup();
+  homeSetup();
   setSetup();
   invSetup();
   potionSetup();
@@ -33,27 +40,35 @@ function setup() {
   diaSetup();
   batSetup();
   charSetup();
+  settingsSetup();
 }
 
 function draw() {
   // interacts with ONLY the "Con()" of every file
   background(220);
+  cursor('/assets/images/settings/cursor.png');
 
-  setCon();
-  animationsCon();
-  battleCon();
-  if (!battleState) {
-    inventoryCon();
-    spellBookCon();
-    potionCon();
+  musicCon();
+  if (currentSet === 0) {
+    homeCon();
   }
-  if (!potionInitiated) {
-    trinketsCon();
-    pageCon();
+  else {
+    setCon();
+    animationsCon();
+    battleCon();
+    if (!battleState) {
+      inventoryCon();
+      spellBookCon();
+      potionCon();
+    }
+    if (!potionInitiated) {
+      trinketsCon();
+      pageCon();
+    }
+    dialogueCon();
+    charCon();
   }
-  dialogueCon();
-  charCon();
-
+  settingsCon();
   mouseGuide();
   gridGuide(6);
   // T_showSetInfo();
@@ -64,19 +79,27 @@ function draw() {
 function mousePressed() {
   // interacts with ONLY the "Pressed()" of every file
 
-  setPressed();
-  if (!battleState) {
-    invPressed();
-    potionPressed();
-    splbkPressed();
-    diaPressed();
+  musicPressed();
+  if (currentSet === 0) {
+    homePressed();
   }
-  if (!potionInitiated) {
-    trnkPressed();
-    pagePressed()
+  else {
+
+    setPressed();
+    if (!battleState) {
+      invPressed();
+      potionPressed();
+      splbkPressed();
+      diaPressed();
+    }
+    if (!potionInitiated) {
+      trnkPressed();
+      pagePressed()
+    }
+    batPressed();
+    charPressed();
   }
-  batPressed();
-  charPressed();
+  settingsPressed();
 }
 
 function keyPressed() {
@@ -134,74 +157,6 @@ function gridGuide(a) {
   stroke(0);
 }
 
+function mouseCursor() {
 
-// function T_setChangeWithChar() {
-//   text(T_x +', '+''+ T_y, T_x, T_y-20 );
-//   circle(T_x, T_y, 20);
-// }
-
-// function T_moveCharKeys() {
-//   if (keyCode === LEFT_ARROW) {
-//     T_x -= 50;
-//     charX = T_x;
-//   }
-//   if (keyCode === RIGHT_ARROW) {
-//     T_x += 50;
-//     charX = T_x;
-//   }
-//   if (keyCode === UP_ARROW) {
-//     T_y -= 50;
-//     charY = T_y;
-//   }
-//   if (keyCode === DOWN_ARROW) {
-//     T_y += 50;
-//     charY = T_y;
-//   }
-// }
-
-////////////////////////////////////////////////////
-// charPreLoad();
-// invPreLoad();
-// endPreLoad();
-
-
-////////////////////////////////////////////////////
-// settings()
-// if (charSelected === false) {
-//   displayPreviewChar();
-// }
-// else {
-// char.manage();
-// invNSpells();
-// dialogue();
-// showEnding();
-// console.log('Current Set', currentSet);
-// }
-
-
-////////////////////////////////////////////////////
-// settingsBoxWidth = width;
-// settingsBoxHeight = settingsBoxWidth - settingsBoxWidth / 3;
-// // fullScreenCheckbox = createCheckbox();
-// // fullScreenCheckbox.position(width/2 - settingsBoxWidth/3.5, height/2 - settingsBoxHeight/1.85);
-// xDiaBox = width / 2;
-// yDiaBox = height - height / 6;
-// diaBoxWidth = width - width / 6;
-// diaBoxHeight = height / 4;
-// lineWidth = width - width / 4;
-// lineHeight = height - height / 8;
-// xWarnBox = width / 2;
-// yWarnBox = height - height / 3;
-// warnBoxWidth = width - width / 2;
-// warnBoxHeight = height / 18;
-// splbk = new SpellBook();
-
-
-////////////////////////////////////////////////////
-// will check all the clicks across the js files
-// settingsPressed();
-// invOpener();
-// splbkOpener();
-// inv.slide();
-// splbk.slide();
-// dialogueBoxPressed();
+}

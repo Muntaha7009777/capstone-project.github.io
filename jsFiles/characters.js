@@ -9,39 +9,39 @@ let charImgs = [
 let char;
 let charX = 0;
 let charY = 0;
-let moveCharBy = 1;
-let charBod = 30;
+let moveCharBy = 6;
+let charBod = 2;
 
 
 function charPreLoad() {
-  for (let i=1; i<=22; i++) {
-    charImgs[0].push(loadImage("/assets/images/characters/idle/"+i+".png"));
+  for (let i = 1; i <= 22; i++) {
+    charImgs[0].push(loadImage("/assets/images/characters/idle/" + i + ".png"));
   }
-  for (let i=1; i<=4; i++) {
-    charImgs[1].push(loadImage("/assets/images/characters/walk/"+i+".png"));
+  for (let i = 1; i <= 4; i++) {
+    charImgs[1].push(loadImage("/assets/images/characters/walk/" + i + ".png"));
   }
-  for (let i=1; i<=8; i++) {
-    charImgs[2].push(loadImage("/assets/images/characters/run/"+i+".png"));
+  for (let i = 1; i <= 8; i++) {
+    charImgs[2].push(loadImage("/assets/images/characters/run/" + i + ".png"));
   }
-  for (let i=1; i<=8; i++) {
-    charImgs[3].push(loadImage("/assets/images/characters/jump/"+i+".png"));
+  for (let i = 1; i <= 8; i++) {
+    charImgs[3].push(loadImage("/assets/images/characters/jump/" + i + ".png"));
   }
-  for (let i=1; i<=3; i++) {
-    charImgs[4].push(loadImage("/assets/images/characters/dead/"+i+".png"));
+  for (let i = 1; i <= 3; i++) {
+    charImgs[4].push(loadImage("/assets/images/characters/dead/" + i + ".png"));
   }
 }
 
 
 function charSetup() {
-  charX = width/2;
-  charY = height/2;
-  char = new Char(charX, charY, charImgs)
+  charX = width / 2;
+  charY = height / 2;
+  char = new Char(charX, charY, 100, charImgs)
 }
 
 
 function charCon() {
   // charSelection();
-  char.manage();
+  if (currentSet !== 0) char.manage();
   T_showCharInfo();
 }
 
@@ -100,9 +100,12 @@ function charKey() {
 
 
 class Char {
-  constructor(x, y, images) {
+  constructor(x, y, health, images) {
     this.x = x;
     this.y = y;
+    this.health = health;
+    this.fullHealth = health;
+    this.perHeart = health / 5;
 
     this.images = images;
     this.imgIndex = 0;
@@ -110,38 +113,47 @@ class Char {
   }
 
   display() {
-    if (!potionInitiated) {
-      image(this.images[this.currentImg][this.imgIndex], this.x, this.y, 50, 50);
+    if (potionInitiated || splbkVisible) return;
+    tint('darkgrey');
+    image(this.images[this.currentImg][this.imgIndex], this.x, this.y, 50, 50);
 
-      if (this.currentImg !== 2) {
-        if (frameCount%20 === 0) {
-          this.imgIndex++;
-        }
-      }
-      else if (frameCount%4 === 0) {
+    if (this.currentImg !== 2) {
+      if (frameCount % 20 === 0) {
         this.imgIndex++;
       }
-
-      if (this.imgIndex > this.images[this.currentImg].length-1) {
-        this.imgIndex = 0;
+    }
+    else {
+      if (frameCount % 4 === 0) {
+        this.imgIndex++;
       }
     }
+
+    if (this.imgIndex > this.images[this.currentImg].length - 1) {
+      this.imgIndex = 0;
+    }
+    noTint();
   }
 
   move() {
     if (keyIsPressed) {
+
+
       if (keyCode === UP_ARROW && this.y > 0) {
         this.y -= moveCharBy;
       }
       else if (keyCode === DOWN_ARROW && this.y < height) {
         this.y += moveCharBy;
       }
+
+
       else if (keyCode === LEFT_ARROW && this.x > 0) {
         this.x -= moveCharBy;
       }
       else if (keyCode === RIGHT_ARROW && this.x < width) {
         this.x += moveCharBy;
       }
+
+
       charX = this.x;
       charY = this.y;
     }

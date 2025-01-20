@@ -4,7 +4,7 @@
 
 let settingsSize = 30;
 let settingsBoxWidth, settingsBoxHeight;
-let settingsVisible = false;
+// let settingsVisible = false;
 
 let fullScreenCheckbox;
 

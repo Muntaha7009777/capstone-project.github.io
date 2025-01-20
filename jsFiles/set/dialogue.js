@@ -85,6 +85,7 @@ function showDialogue(dias) {
 }
 
 function animateText(line) {
+  textAlign(LEFT, TOP);
   text(  line.substring(0, charTyped+1)  , width/2, height-height/7, 400, 110);
   charTyped++;
 }

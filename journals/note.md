@@ -14,3 +14,4 @@ If there is time:
 - Add an easter egg in the Inv icon
 - Add a "What is my name?"
 - Add a fade animation between set changes
+- make settings text more flexible
