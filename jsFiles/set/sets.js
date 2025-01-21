@@ -67,7 +67,7 @@ function setSetup() {
 function setCon() {
   setDisplay();
   setChangeHandler();
-  T_showSetInfo();
+  // T_showSetInfo();
 }
 
 function setPressed() {

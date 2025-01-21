@@ -94,7 +94,8 @@ function settingsButtons() {
     fill(147, 132, 186);
     text('Instructions', startX, startY);
     text('Shortcuts', startX, startY + 50);
-    text('Save and Exit', startX, startY + 100);
+    text('Exit', startX, startY + 100);
+    // text('Save and Exit', startX, startY + 100);
 }
 
 function instructionsRant() {

@@ -81,7 +81,7 @@ function draw() {
 
 
   // mouseGuide();
-  gridGuide(6);
+  // gridGuide(6);
   // T_showSetInfo();
   // T_setChangeWithChar();
 }
