@@ -25,23 +25,18 @@ let T_img;
 
 function invPreLoad() {
     // preload()
-    // invItems.push(loadImage('/assets/images/invTRIAL/eyeball.png'));
-    // invItems.push(loadImage('/assets/images/invTRIAL/mushroom.png'));
-    // invItems.push(loadImage('/assets/images/invTRIAL/newt.png'));
-    // invItems.push(loadImage('/assets/images/invTRIAL/potionHP.png'));
-    // invItems.push(loadImage('/assets/images/invTRIAL/potionXP.png'));
-    // invItems.push(loadImage('/assets/images/invTRIAL/shield.png'));
-    // invItems.push(loadImage('/assets/images/invTRIAL/sword.png'));
-
-    T_img = loadImage('/assets/images/invTRIAL/T.png');
-    invArrow = loadImage('/assets/images/invTRIAL/arrow.png');
-    invBox = loadImage('/assets/images/invTRIAL/box.png');
-    invIconClose = loadImage('/assets/images/invTRIAL/invClose.png');
-    invIconOpen = loadImage('/assets/images/invTRIAL/invOpen.png');
+    invArrow = loadImage('/assets/images/inv/arrow.png');
+    invBox = loadImage('/assets/images/inv/box.png');
+    invIconClose = loadImage('/assets/images/inv/invClose.png');
+    invIconOpen = loadImage('/assets/images/inv/invOpen.png');
 }
 
 function invSetup() {
-    inv = new Inventory();
+    if (gameSaved) {
+        inv = saved.get(inv);
+        invItems = saved.get(invItems);
+    }
+    else inv = new Inventory();
 }
 
 function inventoryCon() {

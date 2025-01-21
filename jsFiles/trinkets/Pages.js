@@ -3,11 +3,8 @@ let pagesContent = [
     ['Health', ['Rice', 'Mushroom', 'Clover', 'Gold', 'Hibiscus']],
     ['Shield', ['Wood', 'Mushroom', 'Clover', 'Gold', 'Hibiscus']],
     ['Sword', ['Shard', 'Iron', 'Wood', 'Bone', 'Echinacea']],
-    ['Eternity', ['Eyeball', 'Blood', 'Sand', 'Gold', 'Salamander', 'Honey']],
     ['Memory', ['Clover', 'Mushroom', 'Iron', 'Honey', 'Bat', 'Dust']],
-    ['Speed', ['Sand', 'Eyeball', 'Gold', 'chemical', 'Blood', 'Clover']],
-    ['Confusion1', ['Wood', 'Mushroom', 'Clover', 'Salamander', 'Bat']],
-    ['Confusion2', ['chemical', 'Newt', 'Clover', 'Bone', 'Eyeball']]
+    ['Speed', ['Dust', 'Eyeball', 'Gold', 'chemical', 'Blood', 'Clover']],
 ]
 // Parameters:
 // [ 'Heading', 'Sequence of Ingredients', [image] ]
@@ -21,44 +18,44 @@ let pagesList = [];
 
 
 function pagePreLoad() {
-  pagesContent[0][2] = (loadImage('/assets/images/splbkTRIAL/healthSpell.png'));
-  pagesContent[1][2] = (loadImage('/assets/images/splbkTRIAL/shieldSpell.png'));
-  pagesContent[2][2] = (loadImage('/assets/images/splbkTRIAL/swordSpell.png'));
-  pagesContent[3][2] = (loadImage('/assets/images/splbkTRIAL/eternitySpell.png'));
-  pagesContent[4][2] = (loadImage('/assets/images/splbkTRIAL/memorySpell.png'));
-  pagesContent[5][2] = (loadImage('/assets/images/splbkTRIAL/speedSpell.png'));
-  pagesContent[6][2] = (loadImage('/assets/images/splbkTRIAL/confusion1Spell.png'));
-  pagesContent[7][2] = (loadImage('/assets/images/splbkTRIAL/confusion2Spell.png'));
+    if (!gameSaved) {
+        pagesContent[0].push((loadImage('/assets/images/splbk/healthSpell.png')));
+        pagesContent[1].push((loadImage('/assets/images/splbk/shieldSpell.png')));
+        pagesContent[2].push((loadImage('/assets/images/splbk/swordSpell.png')));
+        pagesContent[3].push((loadImage('/assets/images/splbk/memorySpell.png')));
+        pagesContent[4].push((loadImage('/assets/images/splbk/speedSpell.png')));
+    }
 }
 
 function pageSetup() {
-    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page0.png') ,'Spell', 160, 260, 1, 1, pagesContent[0]));
-    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page1.png') ,'Spell 1', 390, 190, 1, 1, pagesContent[1]));
-    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page2.png') ,'Spell 2', 190, 390, 1, 1, pagesContent[2]));
-    pagesList.push(new TemporaryPages('Page', loadImage('/assets/images/trinketsTRIAL/pages/page3.png') ,'Spell', 340, 390, 3, 1, pagesContent[3]));
+    if (!gameSaved) {
+        pagesList.push(new Pages('Page', loadImage('/assets/images/trinkets/pages/page.png') ,'HeatlhSpell',    40,                 height-10,              1, 1,   pagesContent[0]));
+        pagesList.push(new Pages('Page', loadImage('/assets/images/trinkets/pages/page.png') ,'ShieldSpell',    width-width/6,      height-height/6 + 20,   2, 1,   pagesContent[1]));
+        pagesList.push(new Pages('Page', loadImage('/assets/images/trinkets/pages/page.png') ,'SwordSpell',     width/6,            height-height/6 + 10,   2, 2,   pagesContent[2]));
+        pagesList.push(new Pages('Page', loadImage('/assets/images/trinkets/pages/page.png') ,'MemorySpell',    width-width/3 + 5,  height-height/4.5 + 5,  3, 1,   pagesContent[3]));
+        pagesList.push(new Pages('Page', loadImage('/assets/images/trinkets/pages/page.png') ,'SpeedSpell',     width/3 + 20,       2*(height/3),           3, 1,   pagesContent[4]));
+    }
+    else {
+        pagesContent = saved.get(pagesContent);
+        pagesList = saved.get(pagesList);
+    }
 }
 
 function pageCon() {
     for (let i = 0; i < pagesList.length; i++) {
         pagesList[i].display(pagesList[i]);
     }
-    // for (let i = 0; i < potions.length; i++) {
-    //     potions[i].display(foodList[i]);
-    // }
 }
 
 function pagePressed() {
     for (let i = 0; i < pagesList.length; i++) {
         pagesList[i].click(i);
     }
-    // for (let i = 0; i < potions.length; i++) {
-    //     potions[i].click(foodList[i]);
-    // }
 }
 
 
 
-class TemporaryPages extends Trinkets {
+class Pages extends Trinkets {
     constructor(name, img, tooltip, initX, initY, setNum, subSetNum, content) {
         super(name, img, tooltip, initX, initY, setNum, subSetNum, nothing());
         this.content = content;

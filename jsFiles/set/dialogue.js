@@ -1,10 +1,10 @@
-// test warn
-
 let dialogues = [
-  ['Set1 Sub1', 1, 1, ['Volcanism of the Mount Edziza volcanic complex in British Columbia', 'The first magmatic cycle took place between 7.5 and 6 million years ago and is represented by the Raspberry, Little Iskut and Armadillo geological formations.']],
-  ['Set2 Sub1', 2, 1, ['Volcanism has taken place during five cycles of magmatic activity, each producing less volcanic material than the previous one.', 'During these cycles volcanism has created several types of volcanoes, including cinder cones, stratovolcanoes, subglacial volcanoes, shield volcanoes and lava domes.']],
-  ['Set2 Sub2', 2, 2, ['Abcde', 'fghijk']],     
-  ['Set3 Sub1', 3, 1, ['lmnopq', 'rstuvw']]     
+  ['Set1 Sub1', 1, 1, ['It is dark...',  'And it is cold...', 'Your muscles ache..', 'How long have you been here?', 'And       W           H           Y?' ]],
+  ['Set2 Sub1', 2, 1, ['You...', 'g}$.&s!s.|s%s!."$~~}"sr.#}.tw|r.#vo#.ys(<', 'g]c.eS`S.ac^^]aSR.b].PS.bVS`S.T]`SdS`', '...', 'You must not remember', '', '', 'The hallway is long.', 'It seems never-ending.', 'Like your dreams once were.']],
+  ['Set2 Sub2', 2, 2, ['Stop Searching.', 'There is nothing for you to go on for...', 'Nothing...', 'Nobody...', 'No matter how Far you go.']],     
+  ['Set3 Sub1', 3, 1, ['Does the room feel familiar?', 'Like you have been here before?', 'If not...', 'Good', 'There is nothing here of importance Anymore', 'Like the dust on the chair', 'Or the sins that you bear...', 'Does that trigger Anything?']],     
+  ['Set3 Sub2', 3, 2, ['G    O                 B     A     C    K                  N        O        W']],     
+  ['Set3 Sub3', 3, 3, ['Will you ever falter?', 'Have you not done enough?', 'They say the evil shall perish', 'If you choose to leave', 'Here is something for you to remember', 'You are the reason   I   am like this', 'Forever trapped', 'And I Will Bring You B.A.C.K']]     
 ];
 
 // Possible Parameters:
@@ -27,7 +27,9 @@ function diaPreLoad() {
 
 
 function diaSetup() {
-
+  if (gameSaved) {
+    dialogues = saved.get(dialogues);
+  }
 }
 
 
@@ -64,7 +66,7 @@ function drawDiaBox() {
 
   textAlign(CENTER, CENTER);
   textSize(20);
-  text('????', width/5, (height-height/6)-62);
+  text('????', width/2 - 190, (height-height/6)-62);
   pop();
 }
 
@@ -87,7 +89,7 @@ function showDialogue(dias) {
 function animateText(line) {
   textAlign(LEFT, TOP);
   text(  line.substring(0, charTyped+1)  , width/2, height-height/7, 400, 110);
-  charTyped++;
+  if (frameCount%2 === 0)  charTyped++;
 }
 
 function dialogueBoxPressed() {
@@ -110,29 +112,5 @@ function dialogueBoxPressed() {
       }
 
     }
-  }
-}
-
-
-// ++++++++++++++++++++++++++++++++++++++++++++++++
-// Warnings
-// ++++++++++++++++++++++++++++++++++++++++++++++++
-
-function drawWarnBox() {
-  rectMode(CENTER);
-  noStroke();
-  fill(200,200,200,70);
-  rect(xWarnBox, yWarnBox, warnBoxWidth, warnBoxHeight);
-  stroke(1);
-  rectMode(CORNER);
-}
-
-function warnAction(warning) {
-  fill(0, 0, 0, warnTimer);
-  textAlign(CENTER, CENTER);
-  text(warning, xWarnBox, yWarnBox);
-  warnTimer--;
-  if (warnTimer === 0) {
-    itemAction = '';
   }
 }

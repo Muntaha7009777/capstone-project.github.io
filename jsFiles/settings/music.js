@@ -2,7 +2,8 @@ let mute = false;
 let volumeChosen = 1.0;
 let setMusic = [];
 let battleMusic;
-let prevSet = 0;
+let prevMusicSet = 0;
+let swordSwoosh;
 
 function musicPreLoad() {
     soundFormats('mp3');
@@ -10,10 +11,12 @@ function musicPreLoad() {
         setMusic.push(loadSound('/assets/sounds/set'+i+'.mp3'));
     }
     battleMusic = loadSound('/assets/sounds/battleMusic.mp3');
+    // battleMusic = loadSound('/assets/sounds/swordSwoosh.mp3');
 }
 
 function musicSetup() {
     setMusic[0].play()
+    if (gameSaved) volumeChosen = saved.get(volumeChosen);
 }
 
 function musicCon() {
@@ -34,9 +37,9 @@ function musicCon() {
 
 
     //set music handler
-    if (currentSet !== prevSet){
-        setMusic[prevSet].stop();
-        prevSet = currentSet;
+    if (currentSet !== prevMusicSet){
+        setMusic[prevMusicSet].stop();
+        prevMusicSet = currentSet;
     }
     if (!setMusic[currentSet].isPlaying()) {
         setMusic[currentSet].play();

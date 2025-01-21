@@ -9,6 +9,7 @@ function windowResized() {
 }
 
 function preload() {
+  glitchGif = loadImage('assets/images/endings/glitch.gif');
   // interacts with ONLY the "PreLoad()" of every file
 
   musicPreLoad();
@@ -23,12 +24,14 @@ function preload() {
   batPreLoad();
   charPreLoad();
   settingsPreLoad();
+  endPreLoad();
 }
 
 function setup() {
   // interacts with ONLY the "Setup()" of every file
   createCanvas(windowWidth, windowHeight);
 
+  loadGame();
   musicSetup();
   homeSetup();
   setSetup();
@@ -41,6 +44,7 @@ function setup() {
   batSetup();
   charSetup();
   settingsSetup();
+  endSetup();
 }
 
 function draw() {
@@ -49,27 +53,34 @@ function draw() {
   cursor('/assets/images/settings/cursor.png');
 
   musicCon();
-  if (currentSet === 0) {
-    homeCon();
-  }
-  else {
-    setCon();
-    animationsCon();
-    battleCon();
-    if (!battleState) {
-      inventoryCon();
-      spellBookCon();
-      potionCon();
+  endingCon();
+
+
+
+  if (!endingInProgress) {
+    if (currentSet === 0) homeCon();
+    else {
+      setCon();
+      battleCon();
+      if (!potionInitiated) {
+        trinketsCon();
+        pageCon();
+      }
+      if (!battleState) {
+        potionCon();
+        inventoryCon();
+        spellBookCon();
+      }
+      charCon();
+      dialogueCon();
+      animationsCon();
     }
-    if (!potionInitiated) {
-      trinketsCon();
-      pageCon();
-    }
-    dialogueCon();
-    charCon();
+    settingsCon();
   }
-  settingsCon();
-  mouseGuide();
+
+
+
+  // mouseGuide();
   gridGuide(6);
   // T_showSetInfo();
   // T_setChangeWithChar();
@@ -79,25 +90,27 @@ function draw() {
 function mousePressed() {
   // interacts with ONLY the "Pressed()" of every file
 
-  musicPressed();
-  if (currentSet === 0) {
-    homePressed();
-  }
-  else {
-
-    setPressed();
-    if (!battleState) {
-      invPressed();
-      potionPressed();
-      splbkPressed();
-      diaPressed();
+  if (!settingsVisible) {
+    musicPressed();
+    if (currentSet === 0) {
+      homePressed();
     }
-    if (!potionInitiated) {
-      trnkPressed();
-      pagePressed()
+    else {
+      setPressed();
+      if (!battleState) {
+        potionPressed();
+        invPressed();
+        splbkPressed();
+        diaPressed();
+      }
+      if (!potionInitiated) {
+        trnkPressed();
+        pagePressed()
+      }
+      if (battleState) batPressed();
+      charPressed();
     }
-    batPressed();
-    charPressed();
+    endPressed();
   }
   settingsPressed();
 }
@@ -105,6 +118,9 @@ function mousePressed() {
 function keyPressed() {
   // T_moveCharKeys();
   charKey();
+  if (currentSet !==0 && set[currentSet][currentSubSet][1] === true) {
+    cheatsTried();
+  }
 }
 
 

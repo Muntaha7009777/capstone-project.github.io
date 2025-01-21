@@ -2,7 +2,6 @@
 let heartFull, heartHalf, heartLost;
 let battleBgImgs = [];
 let monsterImgs = [];
-// let currentBattle;
 let battleState = false;
 
 let battleSets = [
@@ -20,30 +19,40 @@ let monsterList = [];
 
 
 function batPreLoad() {
-    heartFull = loadImage('/assets/images/battleTRIAL/heartFull.png');
-    heartHalf = loadImage('/assets/images/battleTRIAL/heartHalf.png');
-    heartLost = loadImage('/assets/images/battleTRIAL/heartLost.png');
+    heartFull = loadImage('/assets/images/battle/heartFull.png');
+    heartHalf = loadImage('/assets/images/battle/heartHalf.png');
+    heartLost = loadImage('/assets/images/battle/heartLost.png');
 
-    monsterImgs.push(loadImage('/assets/images/battleTRIAL/monsters/blobMonster1.png'));
-    monsterImgs.push(loadImage('/assets/images/battleTRIAL/monsters/flyMonster2.png'));
-    monsterImgs.push(loadImage('/assets/images/battleTRIAL/monsters/bookwormMonster3.png'));
-
-    battleBgImgs.push(loadImage('/assets/images/battleTRIAL/battleBgSet1.png'));
-    battleBgImgs.push(loadImage('/assets/images/battleTRIAL/battleBgSet2.png'));
-    battleBgImgs.push(loadImage('/assets/images/battleTRIAL/battleBgSet3.png'));
+    if (!gameSaved) {
+        monsterImgs.push(loadImage('/assets/images/battle/monsters/blobMonster1.png'));
+        monsterImgs.push(loadImage('/assets/images/battle/monsters/flyMonster2.png'));
+        monsterImgs.push(loadImage('/assets/images/battle/monsters/bookwormMonster3.png'));
+    
+        battleBgImgs.push(loadImage('/assets/images/battle/battleBgSet1.png'));
+        battleBgImgs.push(loadImage('/assets/images/battle/battleBgSet2.png'));
+        battleBgImgs.push(loadImage('/assets/images/battle/battleBgSet3.png'));
+    }
 }
 
 
 function batSetup() {
-    battleSets.push(new FightOp('MonsterName', 1, 1, [100, 100], [300, 300], battleBgImgs[0]));
-    battleSets.push(new FightOp('MonsterName', 2, 1, [100, 100], [300, 300], battleBgImgs[1]));
-    battleSets.push(new FightOp('MonsterName', 3, 1, [100, 100], [300, 300], battleBgImgs[2]));
-    battleBgImgs = []; //freeing up memory
+    if (gameSaved) {
+        battleState = saved.get(battleState);
+        battleSets = saved.get(battleSets);
+        monsterList = saved.get(monsterList);
+    }
+    else {
+        battleSets.push(new FightOp('MonsterName', 1, 1, [width-width/6, height-height/6], [width/2, height-height/5], battleBgImgs[0]));
+        battleSets.push(new FightOp('MonsterName', 2, 1, [width-width/6, height-height/6], [width-width/9, height-height/6], battleBgImgs[1]));
+        battleSets.push(new FightOp('MonsterName', 3, 1, [width/6, height-height/6], [width/2, height], battleBgImgs[2]));
+        battleBgImgs = []; //freeing up memory
 
-    monsterList.push(new Monster('Name Monster Set1', 100, nothing(), width/2, height/2, 3, 5, monsterImgs[0]));
-    monsterList.push(new Monster('Name Monster Set2', 200, nothing(), width/2, height/2, 10, 3, monsterImgs[1]));
-    monsterList.push(new Monster('Name Monster Set3', 500, nothing(), width/2, height/2, 20, 2, monsterImgs[2]));
-    monsterImgs = []; //freeing up memory
+        monsterList.push(new Monster('Name Monster Set1', 100, nothing(), width/2, height-height/3, 3, 5, monsterImgs[0]));
+        monsterList.push(new Monster('Name Monster Set2', 200, nothing(), width/2, height/2, 3, 10, monsterImgs[1]));
+        monsterList.push(new Monster('Name Monster Set3', 500, nothing(), width/2, height/2, 2, 20, monsterImgs[2]));
+        monsterImgs = []; //freeing up memory
+    }
+
 }
 
 
@@ -104,9 +113,9 @@ class FightOp {
     }
 
     checkState() {
-        if (this.setNum === currentSet && this.subsetNum === currentSubSet) {
-            if (charX < this.eX+30 && charX > this.eX-30) {
-                if (charY < this.eY+30 && charY > this.eY-30) {
+        if (this.setNum === currentSet && this.subsetNum === currentSubSet && !monsterList[currentSet-1].defeated) {
+            if (char.x < this.eX+30 && char.x > this.eX-30) {
+                if (char.y < this.eY+30 && char.y > this.eY-30) {
                     currentSubSet = 0;      //subset 0 means battle scene
                     battleState = true;
     
@@ -132,8 +141,8 @@ class FightOp {
         }
 
         if ( monsterList[currentSet-1].defeated) {
-            if (charX < this.rX+charBod && charX > this.rX-charBod) {
-                if (charY < this.rY+charBod && charY > this.rY-charBod) {
+            if (char.x < this.rX+charBod && char.x > this.rX-charBod) {
+                if (char.y < this.rY+charBod && char.y > this.rY-charBod) {
                     battleState = false;
                     currentSubSet = this.subsetNum;
                 }
@@ -143,6 +152,7 @@ class FightOp {
         if (char.health <= 0) {
             battleState = false;
             currentSubSet = this.subsetNum;
+            endingInProgress = true;
         }
     }
 
@@ -219,7 +229,7 @@ class FightOp {
         console.log(chance);
         if (chance === chanceOfHit) {
             if (this.hasShield) {
-                char.health -= damageIntended - ((value*damageIntended)/100);  //deflect a percentage of the damage with shield
+                char.health -= damageIntended - ((this.shieldValue*damageIntended)/100);  //deflect a percentage of the damage with shield
             }
             else {
                 char.health -= damageIntended;
@@ -272,7 +282,10 @@ class Monster {
 
     display() {
         imageMode(CENTER);
-        image(this.img, this.x, this.y, 500, 300);
+        // To save time
+        if (currentSet === 1) image(this.img, this.x, this.y, 500, 300);
+        if (currentSet === 2) image(this.img, this.x, this.y, 100, 100);
+        if (currentSet === 3) image(this.img, this.x, this.y+height/6, 500, 300);
     }
 
     attack() {
@@ -283,6 +296,7 @@ class Monster {
 
     checkDefeat() {
         if (this.XP <= 0) {
+            this.XP = 0;
             this.defeated = true;
         }
     }

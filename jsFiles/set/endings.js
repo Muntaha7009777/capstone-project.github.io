@@ -1,68 +1,106 @@
+let glitchGif;
 
-let endingSnip = [
-  ['ripped1', '', ['Hello','Bye']],     //ripped1
-  ['ripped2', '', ['','']],     //ripped2
-  ['eaten', '', ['','']],     //eaten
-  ['fell', '', ['','']],     //fell      --dep. on spell
-  ['starved', '', ['','']],     //starved   --dep. on spell
-  ['alive', '', ['','']],      //alive
-  ['cursed', '', ['','']]      //alive
+let endingList = [
+  'All the endings for now',
+  ['ripped Battle1', ['Oh well', 'This is what you asked for...']],
+  ['poisioned Battle 2', ['That must have hurt']],
+  ['eaten Battle 3', ['That was quick', 'And', 'Too merciful']],
+  ['starved', ["Just because You can't remember", 'Does not mean you forget to eat', 'Idiot']],
+  ['success', ['YOU', 'WILL', 'BE', 'BACK']],
+  ['remembers', ['Too Much To Remember?', 'How Ironic']],
 ];
-  // endingName, image, [text]
+// endingName, [text], img
 
 let
+  ending = 0,
+  endingLineTimer = 200,
   currEnding = 0,
-  endingLineTimer = 300,
   currEndLine = 0,
-  NUM_OF_ENDINGS = endingSnip.length,
-  xEndLine, 
-  yEndLine;
+  endingInProgress = false;
 
 function endPreLoad() {
-  for (let i=0; i<NUM_OF_ENDINGS; i++) {
-    endingSnip[i][1] = loadImage("assets/images/endings/"+i+".png");
+  // endingSnip.push(loadImage("assets/images/endings/rippedEnding.png"));
+  // endingSnip.push(loadImage("assets/images/endings/poisonedEnding.png"));
+  // endingSnip.push(loadImage("assets/images/endings/eatenEnding.png"));
+  // endingSnip.push(loadImage("assets/images/endings/starvedEnding.png"));
+  // endingSnip.push(loadImage("assets/images/endings/successEnding.png"));
+  // endingSnip.push(loadImage("assets/images/endings/remembersEnding.png"));
+  // endingSnip.push(loadImage("assets/images/endings/cantLeaveEnding.png"));
+
+}
+
+function endSetup() {
+
+}
+
+
+function endingCon() {
+  if (endingInProgress) {
+    endingManager();
+    endingBg();
+    endingDialogue();
+
   }
 }
 
-function showEnding () {
-  if (currentSet === 4) {   //currentSet is defined in sets.js
-    endingBg();
-    endingDialogue();
-  }
+function endPressed() {
+
 }
+
 
 
 function endingBg() {
-  imageMode(CENTER);
-  background(0);
-  let endImg = endingSnip[currEnding][1];
-  let resizeImgPrcntTo = width/endImg.width;
-  image(endImg, width/2, height/2, endImg.width*resizeImgPrcntTo, endImg.height*resizeImgPrcntTo);
-  imageMode(CORNER);
+  rectMode(CENTER);
+  fill(0);
+  rect(width / 2, height / 2, width, height);
 }
 
+
 function endingDialogue() {
-  if (currEndLine < endingSnip[currEnding][2].length) {
+  if (currEndLine < endingList[currEnding][1].length) {
     push();
-    textSize(100);
+    textSize(20);
     noStroke();
     textAlign(CENTER, CENTER);
-    fill(0, 0, 0, endingLineTimer);
-    text(endingSnip[currEnding][2][currEndLine], width/2, height/2);
+    fill(255, 255, 255, endingLineTimer);
+    text(endingList[currEnding][1][currEndLine], width / 2, height / 2);
     endingLineTimer--;
     if (endingLineTimer === 0) {
-      endingLineTimer = 250;
+      endingLineTimer = 200;
       currEndLine++;
     }
     pop();
   }
+  else if (drankMemorySpell && memoryTimer !== 0){
+    cueMemory();
+  } 
   else {
+    endingInProgress = false;
     currentSet = 0;
+    currEndLine = 0;
+    location.reload(); //restart everything
   }
 }
 
 
 
 function endingManager() {
-
+  if (char.health === 0 && starved) {
+    currEnding = 4;
+  }
+  else if (drankMemorySpell) {
+    currEnding = 6;
+  }
+  else if (currentSet === 1 && monsterList[currentSet - 1].defeated === false) {
+    currEnding = 1;
+  }
+  else if (currentSet === 2 && monsterList[currentSet - 1].defeated === false) {
+    currEnding = 2;
+  }
+  else if (currentSet === 3 && monsterList[currentSet - 1].defeated === false) {
+    currEnding = 3;
+  }
+  else if (currentSet === 3 && currentSubSet === 3) {
+    currEnding = 5;
+  }
 }

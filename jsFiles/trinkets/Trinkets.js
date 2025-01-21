@@ -13,28 +13,45 @@ let itemList = [];
 // [ 'Items', [image], 'ToolTip', initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, [if food = useEat() || useMake()] ]
 
 
+// blood, iron,
 
 function trnkPreLoad() {
   
 }
 
 function trnkSetup() {
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 260, 260, 1, 1, 5));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab 1', 390, 290, 1, 1, 5));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword2.png'), 'You can stab 2', 290, 390, 1, 1, 5));
-  weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinketsTRIAL/weapons/sword1.png'), 'You can stab', 340, 390, 3, 1, 5));
+  if (!gameSaved) {
+    weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinkets/weapons/sword.png'), 'You can stab', width-width/12, height-height/12, 1, 1, 5));
+    weaponList.push(new Weapon('Shield', loadImage('/assets/images/trinkets/weapons/shield.png'), 'You can shield', width/7, height-height/12, 2, 1, 5));
+  
+    foodList.push(new Food('Food', loadImage('/assets/images/trinkets/food/mushroom.png'), 'Mushroom', width-width/2.5, height-height/4.5, 1, 1));
+    foodList.push(new Food('Food', loadImage('/assets/images/trinkets/food/blueberry.png'), 'Blueberry',   width-width/6,          height-height/3,          2, 0));
+    foodList.push(new Food('Food', loadImage('/assets/images/trinkets/food/watermelon.png'), 'Watermelon',   width/6,          height/6,          2, 0));
 
-  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/watermelon.png'), 'Watermelon', 280, 320, 1, 0));
-  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/watermelon.png'), 'Watermelon', 280, 220, 1, 1));
-  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/mushroom.png'), 'Mushroom', 190, 210, 1, 1));
-  foodList.push(new Food('Food', loadImage('/assets/images/trinketsTRIAL/food/blueberry.png'), 'Blueberry', 90, 490, 1, 1));
-
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/clover.png'), 'Clover', 220, 280, 1, 1));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/shard.png'), 'Shard', 110, 270, 1, 1));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/mushroom.png'), 'Mushroom', 290, 210, 1, 1));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/rice.png'), 'Rice', 100, 490, 1, 1));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/gold.png'), 'Gold', 150, 690, 1, 1));
-  itemList.push(new Item('Food', loadImage('/assets/images/trinketsTRIAL/items/hibiscus.png'), 'Hibiscus', 170, 490, 1, 1));
+  
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/eyeball.png'),   'Eyeball',    width/3,          height-height/6,                 1, 0));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/honey.png'),     'Honey',      width-width/6,    height/6,                 1, 0));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/bat.png'),       'Bat',        width/3,          height/6,                 1, 1));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/bone.png'),      'Bone',       width/2.25,       height-height/4.5,        1, 1));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/dust.png'),      'Dust',       width/4,          height-height/4.5,        1, 1));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/hibiscus.png'),  'Hibiscus',   width/6,          height-height/3,          2, 0));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/echinacea.png'), 'Echinacea',  width/6,          height/3-20,              2, 0));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/clover.png'),    'Clover',     width/3,          height/3,                 2, 0));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/mushroom.png'),  'Mushroom',   width/3 + 20,     height-height/3,          2, 1));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/shard.png'),     'Shard',      width/2 - 20,     height/2 + 20,            2, 1));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/Rice.png'),      'Rice',       width/3,          height-height/4,          2, 2));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/newt.png'),      'Newt',       width-width/2.5,  height/2 - 20,            2, 2));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/iron.png'),      'Iron',       width/2,          height-height/6,          3, 0));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/blood.png'),     'Blood',      width/3,          height-height/3,          3, 0));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/gold.png'),      'Gold',       width-width/5,    height-height/3 - 25,     3, 1));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/wood.png'),      'Wood',       width/9,          height-height/6,          3, 1));
+    itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/gold.png'),      'Gold',       width-width/5,    height-height/3 - 25,     3, 1));
+  } 
+  else {
+    weaponList = saved.get(weaponList);
+    foodList = saved.get(foodList);
+    itemList = saved.get(itemList);
+  }
 }
 
 function trinketsCon() {
@@ -79,6 +96,7 @@ class Trinkets {
 
   display() {
     imageMode(CENTER);
+    tint('grey')
     if (!this.found && currentSet === this.setNum && currentSubSet === this.subSetNum) {
       if (this.subSetNum === 0 && battleState && monsterList[currentSet-1].defeated) {
         image(this.img, this.initX, this.initY, 40, 40);
@@ -87,6 +105,7 @@ class Trinkets {
         image(this.img, this.initX, this.initY, 40, 40);
       } 
     }
+    noTint();
 
   }
 

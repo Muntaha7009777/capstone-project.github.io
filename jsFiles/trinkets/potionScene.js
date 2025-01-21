@@ -11,25 +11,34 @@ let craftIconOpen;
 let craftIconClose;
 let craftScreen;
 
+let drankMemorySpell = false;
+let beenHereForRounds = 0;  //If 3 end
 
 
 function potionPreLoad() {
-    potionBgImg = loadImage('/assets/images/potionsTRIAL/bg.png');
-    craftIconOpen = loadImage('/assets/images/potionsTRIAL/craftIconOpen.png');
-    craftIconClose = loadImage('/assets/images/potionsTRIAL/craftIconClose.png');
+    potionBgImg = loadImage('/assets/images/potions/bg.png');
+    craftIconOpen = loadImage('/assets/images/potions/craftIconOpen.png');
+    craftIconClose = loadImage('/assets/images/potions/craftIconClose.png');
 }
 
 function potionSetup() {
-    craftScreen = new CraftScene(width / 2, height / 2, potionBgImg);
-
-    potionsList.push(new Potions('SpellHealth',     loadImage('/assets/images/potionsTRIAL/healthSpell.png'),      'Maintain health for 15 minutes',    ['Rice', 'Mushroom', 'Clover', 'Gold', 'Hibiscus'],           nothing)),
-    potionsList.push(new Potions('SpellShield',     loadImage('/assets/images/potionsTRIAL/shieldSpell.png'),      'Increase shield protection by 5%',  ['Wood', 'Mushroom', 'Clover', 'Gold', 'Hibiscus'],           nothing)),
-    potionsList.push(new Potions('SpellSword',      loadImage('/assets/images/potionsTRIAL/swordSpell.png'),       'Increase attack by 5%',             ['Shard', 'Iron', 'Wood', 'Bone', 'Echinacea'],               nothing)),
-    potionsList.push(new Potions('SpellEternity',   loadImage('/assets/images/potionsTRIAL/eternitySpell.png'),    'Never die',                         ['Eyeball', 'Blood', 'Sand', 'Gold', 'Salamander', 'Honey'],  nothing)),
-    potionsList.push(new Potions('SpellMemory',     loadImage('/assets/images/potionsTRIAL/memorySpell.png'),      'You Must Remember',                 ['Clover', 'Mushroom', 'Iron', 'Honey', 'Bat', 'Dust'],       nothing)),
-    potionsList.push(new Potions('SpellSpeed',      loadImage('/assets/images/potionsTRIAL/speedSpell.png'),       'Walk faster',                       ['Sand', 'Eyeball', 'Gold', 'chemical', 'Blood', 'Clover'],   nothing)),
-    potionsList.push(new Potions('SpellConfusion1', loadImage('/assets/images/potionsTRIAL/confusion1Spell.png'),  'Mystery potion',                    ['Wood', 'Mushroom', 'Clover', 'Salamander', 'Bat'],          nothing)),
-    potionsList.push(new Potions('SpellConfusion2', loadImage('/assets/images/potionsTRIAL/confusion2Spell.png'),  'Why? Just why?',                    ['chemical', 'Newt', 'Clover', 'Bone', 'Eyeball'],            nothing))
+    if (!gameSaved) {
+        craftScreen = new CraftScene(width / 2, height / 2, potionBgImg);
+    
+        potionsList.push(new Potions('SpellHealth',     loadImage('/assets/images/potions/healthSpell.png'),      'Increase health by 50',    ['Rice', 'Mushroom', 'Clover', 'Gold', 'Hibiscus'],                    healthFifteen)),
+        potionsList.push(new Potions('SpellShield',     loadImage('/assets/images/potions/shieldSpell.png'),      'Increase shield protection by 30',  ['Wood', 'Mushroom', 'Clover', 'Gold', 'Hibiscus'],           shieldTen)),
+        potionsList.push(new Potions('SpellSword',      loadImage('/assets/images/potions/swordSpell.png'),       'Increase attack by 30',             ['Shard', 'Iron', 'Wood', 'Bone', 'Echinacea'],               swordTen)),
+        potionsList.push(new Potions('SpellMemory',     loadImage('/assets/images/potions/memorySpell.png'),      'You Must Remember',                 ['Clover', 'Mushroom', 'Iron', 'Honey', 'Bat', 'Dust'],       remembered)),
+        potionsList.push(new Potions('SpellSpeed',      loadImage('/assets/images/potions/speedSpell.png'),       'Walk faster',                       ['Sand', 'Eyeball', 'Gold', 'chemical', 'Blood', 'Clover'],   speedUp)),
+        potionsList.push(new Potions('SpellConfusion1', loadImage('/assets/images/potions/confusion1Spell.png'),  'Mystery potion',                    ['Wood', 'Mushroom', 'Clover', 'Salamander', 'Bat'],          nothing)),
+        potionsList.push(new Potions('SpellConfusion2', loadImage('/assets/images/potions/confusion2Spell.png'),  'Why? Just why?',                    ['chemical', 'Newt', 'Clover', 'Bone', 'Eyeball'],            nothing))
+    }
+    else {
+        potionInitiated = saved.get(potionInitiated);
+        itemSequence = saved.get(itemSequence);
+        potionsList = saved.get(potionsList);
+        craftScreen = saved.get(craftScreen);
+    }
 
 }
 
@@ -147,7 +156,7 @@ class CraftScene {
 
 
     manage() {
-        // this.display();
+        this.display();
     }
 
 }

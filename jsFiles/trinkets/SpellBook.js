@@ -9,29 +9,28 @@ Has:
 let splbk;
 let splbkVisible = false;
 let splbkItems = [];
-let T_spell = ['Health', ['O', 'R', 'D', 'E', 'R'], ['A sketch obviously']];
 
 let splbkIconClose;
 let splbkIconOpen;
 
 
 function splbkPreLoad() {
-  // splbkItems[0][2] = (loadImage('/assets/images/splbkTRIAL/healthSpell.png'));
-  // splbkItems[1][2] = (loadImage('/assets/images/splbkTRIAL/shieldSpell.png'));
-  // splbkItems[2][2] = (loadImage('/assets/images/splbkTRIAL/swordSpell.png'));
-  // splbkItems[3][2] = (loadImage('/assets/images/splbkTRIAL/eternitySpell.png'));
-  // splbkItems[4][2] = (loadImage('/assets/images/splbkTRIAL/memorySpell.png'));
-  // splbkItems[5][2] = (loadImage('/assets/images/splbkTRIAL/speedSpell.png'));
-  // splbkItems[6][2] = (loadImage('/assets/images/splbkTRIAL/confusion1Spell.png'));
-  // splbkItems[7][2] = (loadImage('/assets/images/splbkTRIAL/confusion2Spell.png'));
-
-  T_spell[2] = loadImage('/assets/images/splbkTRIAL/shieldSpell.png');
-
-  splbkIcon = loadImage('/assets/images/splbkTRIAL/book.png');
-  splbkArrow = loadImage('/assets/images/splbkTRIAL/arrow.png');
-  splbkIconClose = loadImage('/assets/images/splbkTRIAL/bookClose.png');
-  splbkIconOpen = loadImage('/assets/images/splbkTRIAL/bookOpen.png');
+  splbkIcon = loadImage('/assets/images/splbk/book.png');
+  splbkArrow = loadImage('/assets/images/splbk/arrow.png');
+  splbkIconClose = loadImage('/assets/images/splbk/bookClose.png');
+  splbkIconOpen = loadImage('/assets/images/splbk/bookOpen.png');
 }
+
+function splbkSetup() {
+  if (gameSaved) {
+    splbk = saved.get(splbk);
+    splbkItems = saved.get(splbkItems);
+  }
+  else {
+    splbk = new Book();
+  }
+ }
+
 
 function spellBookCon() {
   splbkButton();
@@ -39,9 +38,6 @@ function spellBookCon() {
   // T_BOOK_adder();
 }
 
-function splbkSetup() {
-  splbk = new Book();
-}
 
 
 function splbkButton() {
