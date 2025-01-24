@@ -36,7 +36,7 @@ function charPreLoad() {
 function charSetup() {
   // setup()
   if (!gameSaved) {
-    char = new Char(width/2, height-height/8, 100, 2, charImgs)
+    char = new Char(width / 2, height - height / 8, 100, 2, charImgs)
   }
   else {
     char = saved.get(char);
@@ -127,13 +127,11 @@ class Char {
     image(this.images[this.currentImg][this.imgIndex], this.x, this.y, 50, 50);
 
     //cycle through imgs, but faster when running
-    if (frameCount % 20 === 0) {
-        if (this.currentImg !== 2) {  
-        this.imgIndex++;
-      }
+    if (frameCount % 20 === 0 && this.currentImg !== 2) {
+      this.imgIndex++;
     }
-    else {    
-      if (frameCount % 4 === 0) {
+    else {
+      if (frameCount % 4 === 0 && this.currentImg === 2) {
         this.imgIndex++;
       }
     }
@@ -147,25 +145,25 @@ class Char {
 
   move() {
     // no moving under some conditions
-    if (battleState && monsterList[currentSet-1].defeated === false) return;
+    if (battleState && monsterList[currentSet - 1].defeated === false) return;
     if (set[currentSet][currentSubSet][1] === false) return;
 
-      // allows diagonal movement with keyIsDown
-      // vertical
-      if (keyIsDown(UP_ARROW) && this.y > height-height/5) {
-        this.y -= char.speed;
-      }
-      else if (keyIsDown(DOWN_ARROW) && this.y < height) {
-        this.y += char.speed;
-      }
+    // allows diagonal movement with keyIsDown
+    // vertical
+    if (keyIsDown(UP_ARROW) && this.y > height - height / 5) {
+      this.y -= char.speed;
+    }
+    else if (keyIsDown(DOWN_ARROW) && this.y < height) {
+      this.y += char.speed;
+    }
 
-      // horizontal
-      if (keyIsDown(LEFT_ARROW) && this.x > 0) {
-        this.x -= char.speed;
-      }
-      else if (keyIsDown(RIGHT_ARROW) && this.x < width) {
-        this.x += char.speed;
-      }
+    // horizontal
+    if (keyIsDown(LEFT_ARROW) && this.x > 0) {
+      this.x -= char.speed;
+    }
+    else if (keyIsDown(RIGHT_ARROW) && this.x < width) {
+      this.x += char.speed;
+    }
   }
 
   decideCharacterAnimation() {
@@ -189,8 +187,8 @@ class Char {
 
   starving() {
     // lose health if char hasn't eating anything
-    if (frameCount%3600 === 0) { //every 1-ish minute
-      char.health -=10;
+    if (frameCount % 3600 === 0) { //every 1-ish minute
+      char.health -= 10;
       // ending 4 if starved
       if (char.health <= 0) {
         starved = true;

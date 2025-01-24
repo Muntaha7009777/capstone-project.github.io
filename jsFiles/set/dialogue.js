@@ -1,3 +1,5 @@
+// Manages dialogues for every subset
+
 let dialogues = [
   ['Set1 Sub1', 1, 1, ['It is dark...', 'And it is cold...', 'Your muscles ache..', 'How long have you been here?', 'And       W           H           Y?']],
   ['Set2 Sub1', 2, 1, ['You...', 'g}$.&s!s.|s%s!."$~~}"sr.#}.tw|r.#vo#.ys(<', 'g]c.eS`S.ac^^]aSR.b].PS.bVS`S.T]`SdS`', '...', 'You must not remember', '', '', 'The hallway is long.', 'It seems never-ending.', 'Like your dreams once were.']],
@@ -6,27 +8,24 @@ let dialogues = [
   ['Set3 Sub2', 3, 2, ['G    O                 B     A     C    K                  N        O        W']],
   ['Set3 Sub3', 3, 3, ['Will you ever falter?', 'Have you not done enough?', 'They say the evil shall perish', 'If you choose to leave', 'Here is something for you to remember', 'You are the reason   I   am like this', 'Forever trapped', 'And I Will Bring You B.A.C.K']]
 ];
-
-// Possible Parameters:
-// [ 'Set# SubSet#', SetNum, SubSetNum [Lines], shown=boolean ]
+//  Parameters:
+// [ 'Set# SubSet#', SetNum, SubSetNum [Lines] ]
 
 
 let
-  textState = 'Writing';
-currLine = 0;
-charTyped = 0;
-fullLineShown = false;
+  textState = 'Writing',
+  currLine = 0,
+  charTyped = 0,
+  fullLineShown = false;
 
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Caller Functions 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 
-function diaPreLoad() {
-}
-
 
 function diaSetup() {
+  // setup()
   if (gameSaved) {
     dialogues = saved.get(dialogues);
   }
@@ -34,6 +33,7 @@ function diaSetup() {
 
 
 function dialogueCon() {
+  // draw()
   if (set[currentSet][currentSubSet][1] === false) {
     drawDiaBox();
     showDialogue(dialogues[0][3]);
@@ -42,12 +42,8 @@ function dialogueCon() {
 
 
 function diaPressed() {
+  // mousePressed()
   if (set[currentSet][currentSubSet][1] === false) dialogueBoxPressed();
-}
-
-function warnCon4Inv(textToShow) {
-  drawWarnBox();
-  warnAction(textToShow);
 }
 
 
@@ -57,6 +53,7 @@ function warnCon4Inv(textToShow) {
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 
 function drawDiaBox() {
+  // draw the box and ? marks
   push();
   rectMode(CENTER);
   strokeWeight(4);
@@ -71,6 +68,7 @@ function drawDiaBox() {
 }
 
 function showDialogue(dias) {
+  // play dialogue line by line. Stop animation if mousePressed
   rectMode(CENTER);
   textSize(15);
   fill(41, 36, 21);
@@ -87,13 +85,17 @@ function showDialogue(dias) {
   }
 }
 
+
 function animateText(line) {
+  // animate the lines
   textAlign(LEFT, TOP);
   text(line.substring(0, charTyped + 1), width / 2, height - height / 7, 400, 110);
   if (frameCount % 2 === 0) charTyped++;
 }
 
+
 function dialogueBoxPressed() {
+  // The function that either finishes the animation or moves on to the next line
   if (mouseX > width / 12 && mouseX < width - width / 12) {
     if (mouseY < height - height / 25 && mouseY > 3 * height / 4 - height / 25) {
 

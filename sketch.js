@@ -1,6 +1,6 @@
-// GAME NAME
+// Capstone [Name: WHY ARE YOU HERE?]
 // Muntaha Chowdhury
-// [2024] November 27 - January ??
+// [2024] November 27 - January 24
 // Capstone Project
 
 
@@ -19,12 +19,9 @@ function preload() {
   potionPreLoad();
   splbkPreLoad();
   pagePreLoad();
-  diaPreLoad();
   batPreLoad();
   charPreLoad();
   settingsPreLoad();
-  endPreLoad();
-  instPreLoad();
 }
 
 function setup() {
@@ -33,7 +30,6 @@ function setup() {
 
   loadGame();
   musicSetup();
-  homeSetup();
   setSetup();
   invSetup();
   potionSetup();
@@ -44,13 +40,11 @@ function setup() {
   batSetup();
   charSetup();
   settingsSetup();
-  endSetup();
 }
 
 function draw() {
   // interacts with ONLY the "Con()" of every file
   background(220);
-  cursor('/assets/images/settings/cursor.png');
 
 
   if (endingInProgress) endingCon()
@@ -69,9 +63,9 @@ function draw() {
       dialogueCon();
       animationsCon();
     }
+    settingsCon();
   }
   musicCon();
-  settingsCon();
 }
 
 
@@ -98,63 +92,9 @@ function mousePressed() {
 
 
 function keyPressed() {
-  // T_moveCharKeys();
+  // interacts with ONLY the "KeyPressed()" of every file
   charKey();
   if (currentSet !== 0 && set[currentSet][currentSubSet][1] === true) {
     cheatsTried();
   }
-}
-
-
-function mouseGuide() {
-  fill('purple');
-  text(mouseX + ',' + mouseY, mouseX, mouseY);
-}
-
-function gridGuide(a) {
-  strokeWeight(0.5);
-
-  if (a === 2) {
-    stroke('purple');
-    line(0, height / 2, width, height / 2);
-    line(width / 2, 0, width / 2, height);
-  }
-
-  if (a === 3) {
-    stroke('green');
-    line(0, height / 3, width, height / 3);
-    line(0, height - height / 3, width, height - height / 3);
-    line(width / 3, 0, width / 3, height);
-    line(width - width / 3, 0, width - width / 3, height);
-  }
-
-  if (a === 4) {
-    stroke('blue');
-    line(0, height / 4, width, height / 4);
-    line(0, height / 2, width, height / 2);
-    line(0, height - height / 4, width, height - height / 4);
-    line(width / 4, 0, width / 4, height);
-    line(width / 2, 0, width / 2, height);
-    line(width - width / 4, 0, width - width / 4, height);
-  }
-
-  if (a === 6) {
-    stroke('orange');
-    line(0, height / 6, width, height / 6);
-    line(0, height / 3, width, height / 3);
-    line(0, height / 2, width, height / 2);
-    line(0, height - height / 3, width, height - height / 3);
-    line(0, height - height / 6, width, height - height / 6);
-    line(width / 6, 0, width / 6, height);
-    line(width / 3, 0, width / 3, height);
-    line(width / 2, 0, width / 2, height);
-    line(width - width / 3, 0, width - width / 3, height);
-    line(width - width / 6, 0, width - width / 6, height);
-  }
-
-  stroke(0);
-}
-
-function mouseCursor() {
-
 }

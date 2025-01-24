@@ -31,7 +31,6 @@ let saved = new Map ([
     ['pagesList',           pagesList],
 
     ['char',                char],
-    ['moveCharBy',          moveCharBy],
 
     ['showedInstructions',  showedInstructions],
 

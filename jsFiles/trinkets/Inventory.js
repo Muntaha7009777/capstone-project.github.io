@@ -125,9 +125,9 @@ class Inventory {
 
 
                 }
-            } 
-            
-            
+            }
+
+
             // If more than five items
             else {
                 for (let i = 0; i < 5; i++) {
@@ -166,8 +166,8 @@ class Inventory {
                     }
                 }
             }
-        } 
-        
+        }
+
         // If more than 5
         else {
             for (let i = 0; i < 5; i++) {

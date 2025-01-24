@@ -1,20 +1,20 @@
-
+// Manages the sets
 let set = [
   ['Intro Scene'],
 
-  [ 'Set1 Chains',
-    ['Dungeon',    false,   [/*Not Allowed*/],   [/*Next x,y*/],    [2, 1]]
+  ['Set1 Chains',
+    ['Dungeon', false, [/*Not Allowed*/], [/*Next x,y*/], [2, 1]]
   ],
 
-  [ 'Set2 Bottom',
-    ['Bottom',     false,   [/*Not Allowed*/],   [/*Next x,y*/],    [2, 2]],
-    ['Top',        false,   [/*Back x,y*/],      [/*Next x,y*/],    [3, 1]] 
+  ['Set2 Bottom',
+    ['Bottom', false, [/*Not Allowed*/], [/*Next x,y*/], [2, 2]],
+    ['Top', false, [/*Back x,y*/], [/*Next x,y*/], [3, 1]]
   ],
 
-  [ 'Set3 Library',
-    ['Entrance',   false,   [/*Not Allowed*/],   [/*Next x,y*/],    [3, 2]],
-    ['Reading',    false,   [/*Back x,y*/],      [/*Next x,y*/],    [3, 3]],
-    ['Out',        false,   [/*Back x,y*/],      [/*Next x,y*/],    [/*special case*/, /*special case*/]]
+  ['Set3 Library',
+    ['Entrance', false, [/*Not Allowed*/], [/*Next x,y*/], [3, 2]],
+    ['Reading', false, [/*Back x,y*/], [/*Next x,y*/], [3, 3]],
+    ['Out', false, [/*Back x,y*/], [/*Next x,y*/], [/*special case*/, /*special case*/]]
   ]
 ]
 
@@ -38,23 +38,21 @@ function setPreLoad() {
 }
 
 function setSetup() {
-
+  // setup()
+  // fill in some value because width and height
   if (!gameSaved) {
     // change backto
-    // set1[1][2] = [];
-    // set2[1][2] = [];
-    set[2][2][2] = [0,height/2];
-    // set3[1][2] = [];
-    set[3][2][2] = [0,height/2];
-    set[3][3][2] = [0,height/2];
-  
+    set[2][2][2] = [0, height / 2];
+    set[3][2][2] = [0, height / 2];
+    set[3][3][2] = [0, height / 2];
+
     // change onto
-    set[1][1][3] = [width-width/9,height-height/6];
-    set[2][1][3] = [width,height-50];
-    set[2][2][3] = [width,height-50];
-    set[3][1][3] = [width,height-height/6];
-    set[3][2][3] = [width,height-height/6];
-    set[3][3][3] = [width,height-height/6];
+    set[1][1][3] = [width - width / 9, height - height / 6];
+    set[2][1][3] = [width, height - 50];
+    set[2][2][3] = [width, height - 50];
+    set[3][1][3] = [width, height - height / 6];
+    set[3][2][3] = [width, height - height / 6];
+    set[3][3][3] = [width, height - height / 6];
   }
   else {
     set = saved.get(set);
@@ -65,21 +63,17 @@ function setSetup() {
 }
 
 function setCon() {
+  // draw()
   setDisplay();
   setChangeHandler();
-  // T_showSetInfo();
 }
-
-function setPressed() {
-
-}
-
 
 
 function setDisplay() {
+  // show the bg
   imageMode(CENTER);
   if (currentSet !== 0 && currentSubSet !== 0) {
-    image(set[currentSet][currentSubSet][5], width/2, height/2, width, height);
+    image(set[currentSet][currentSubSet][5], width / 2, height / 2, width, height);
   }
 }
 
@@ -87,10 +81,11 @@ function setDisplay() {
 
 
 function setChangeHandler() {
+  // manage set changing
   // going out to
   if (currentSet === 0) return;
   if (char.x > set[currentSet][currentSubSet][3][0] - charBod) {
-    if (char.y < set[currentSet][currentSubSet][3][1]+charBod && char.y > set[currentSet][currentSubSet][3][1]-charBod) {   // in sub1
+    if (char.y < set[currentSet][currentSubSet][3][1] + charBod && char.y > set[currentSet][currentSubSet][3][1] - charBod) {   // in sub1
       if (currentSet === 3 && currentSubSet === 3) {
         endingInProgress = true;
       }
@@ -107,20 +102,10 @@ function setChangeHandler() {
   // going back to
   if (currentSubSet !== 1) {
     if (char.x < set[currentSet][currentSubSet][2][0] + charBod) {
-      if (char.y < set[currentSet][currentSubSet][2][1]+charBod && char.y > set[currentSet][currentSubSet][2][1]-charBod) {   // in sub1
-        char.x = width-100;
-        currentSubSet = currentSubSet-1;
+      if (char.y < set[currentSet][currentSubSet][2][1] + charBod && char.y > set[currentSet][currentSubSet][2][1] - charBod) {   // in sub1
+        char.x = width - 100;
+        currentSubSet = currentSubSet - 1;
       }
     }
   }
 }
-
-
-
-function T_showSetInfo() {
-  fill('yellow');
-  textSize(13);
-  text('Set: ' + currentSet, 39, 20);
-  text('Subset: ' + currentSubSet, 20, 40);
-}
-

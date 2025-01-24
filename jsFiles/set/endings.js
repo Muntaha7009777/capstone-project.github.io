@@ -1,14 +1,16 @@
+// Manages endings
 let glitchGif;
 
 let endingList = [
   'All the endings for now',
-  ['ripped Battle1', ['Oh well', 'This is what you asked for...']],
+  ['ripped Battle1', ['Oh well', 'What did you expect?']],
   ['poisioned Battle 2', ['That must have hurt']],
   ['eaten Battle 3', ['That was quick', 'And', 'Too merciful']],
   ['starved', ["Just because You can't remember", 'Does not mean you forget to eat', 'Idiot']],
   ['success', ['YOU', 'WILL', 'BE', 'BACK']],
   ['remembers', ['Too Much To Remember?', 'How Ironic']],
 ];
+// Parameters:
 // endingName, [text], img
 
 let
@@ -18,23 +20,11 @@ let
   currEndLine = 0,
   endingInProgress = false;
 
-function endPreLoad() {
-  // endingSnip.push(loadImage("assets/images/endings/rippedEnding.png"));
-  // endingSnip.push(loadImage("assets/images/endings/poisonedEnding.png"));
-  // endingSnip.push(loadImage("assets/images/endings/eatenEnding.png"));
-  // endingSnip.push(loadImage("assets/images/endings/starvedEnding.png"));
-  // endingSnip.push(loadImage("assets/images/endings/successEnding.png"));
-  // endingSnip.push(loadImage("assets/images/endings/remembersEnding.png"));
-  // endingSnip.push(loadImage("assets/images/endings/cantLeaveEnding.png"));
 
-}
-
-function endSetup() {
-
-}
 
 
 function endingCon() {
+  // draw()
   if (endingInProgress) {
     endingManager();
     endingBg();
@@ -42,13 +32,9 @@ function endingCon() {
   }
 }
 
-function endPressed() {
-
-}
-
-
 
 function endingBg() {
+  // draw the bg
   rectMode(CENTER);
   fill(0);
   rect(width / 2, height / 2, width, height);
@@ -56,6 +42,7 @@ function endingBg() {
 
 
 function endingDialogue() {
+  // fades in the dialogue
   if (currEndLine < endingList[currEnding][1].length) {
     push();
     textSize(20);
@@ -70,9 +57,9 @@ function endingDialogue() {
     }
     pop();
   }
-  else if (drankMemorySpell && memoryTimer !== 0){
+  else if (drankMemorySpell && memoryTimer !== 0) {
     cueMemory();
-  } 
+  }
   else {
     endingInProgress = false;
     currentSet = 0;
@@ -84,6 +71,7 @@ function endingDialogue() {
 
 
 function endingManager() {
+  // Manage ending
   if (char.health === 0 && starved) {
     currEnding = 4;
   }

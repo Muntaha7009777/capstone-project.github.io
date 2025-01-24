@@ -12,8 +12,8 @@ let prevMusicSet = 0;
 function musicPreLoad() {
     // preload()
     soundFormats('mp3');
-    for (let i=0; i<=3; i++) {
-        setMusic.push(loadSound('/assets/sounds/set'+i+'.mp3'));
+    for (let i = 0; i <= 3; i++) {
+        setMusic.push(loadSound('/assets/sounds/set' + i + '.mp3'));
     }
     battleMusic = loadSound('/assets/sounds/battleMusic.mp3');
 }
@@ -28,7 +28,7 @@ function musicCon() {
     // draw()
 
     //volume handler
-    if (mute){
+    if (mute) {
         setMusic[currentSet].setVolume(0);
     }
     else {
@@ -44,7 +44,7 @@ function musicCon() {
 
 
     //set music handler
-    if (currentSet !== prevMusicSet){
+    if (currentSet !== prevMusicSet) {
         setMusic[prevMusicSet].stop();
         prevMusicSet = currentSet;
     }

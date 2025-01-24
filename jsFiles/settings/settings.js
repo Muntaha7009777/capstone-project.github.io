@@ -49,7 +49,7 @@ function settingsCon() {
 
 function settingsPressed() {
     // mousePressed()
-    
+
     // checks for Globe button pressed
     if (mouseX < 80 && mouseY < 80) {
         settingsVisible = !settingsVisible;
@@ -149,7 +149,7 @@ function shortcutsRant() {
         text('Press the S key to get all Spells', startX, startY + 50, boxWidth);
         text("Press the P key to get all Potions", startX, startY + 70, boxWidth);
         text("Press the I key to get all Items", startX, startY + 90, boxWidth);
-        
+
         text('Press Q for Set1 SubSet1', startX, startY + 110, boxWidth);
         text('Press W for Set2 SubSet1', startX, startY + 130, boxWidth);
         text("Press R for Set2 SubSet2", startX, startY + 150, boxWidth);
@@ -158,7 +158,7 @@ function shortcutsRant() {
         text("Press U for Set3 SubSet3", startX, startY + 210, boxWidth);
 
         text('Press Z for Ending 1, X for 2, C for 3, V for 4, B for 5, N for 6', startX, startY + 240, boxWidth);
-        
+
         text('You have to start the game before you try any of the codes.', startX, startY + 270, boxWidth);
         text('The dialogue will get messed up when you switch between sets.', startX, startY + 300, boxWidth);
 
