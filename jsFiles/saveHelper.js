@@ -1,39 +1,39 @@
-
+// The file that saves/loads/restarts the game
 // this is a very rudimentary and unorganized file
+
 let gameSaved = false;
-let saved;
 
-let saving = new Map ([
-    ['battleState',      battleState],
-    ['battleSets',       battleSets],
-    ['monsterList',      monsterList],
+// Holds the info that needs to be saved
+let saved = new Map ([  
+    ['battleState',         battleState],
+    ['battleSets',          battleSets],
+    ['monsterList',         monsterList],
 
-    ['dialogues',        dialogues],
-    ['set',              set],
-    ['setLeft',          setLeft],
-    ['currentSet',       currentSet],
-    ['currentSubSet',    currentSubSet],
+    ['dialogues',           dialogues],
+    ['set',                 set],
+    ['setLeft',             setLeft],
+    ['currentSet',          currentSet],
+    ['currentSubSet',       currentSubSet],
 
-    ['volumeChosen',     volumeChosen],
+    ['volumeChosen',        volumeChosen],
 
-    ['inv',              inv],
-    ['invItems',         invItems],
-    ['weaponList',       weaponList], //
-    ['foodList',         foodList],
-    ['itemList',         itemList],
+    ['invItems',            invItems],
+    ['weaponList',          weaponList], 
+    ['foodList',            foodList],
+    ['itemList',            itemList],
 
-    ['splbk',            splbk],
-    ['splbkItems',       splbkItems],
+    ['splbkItems',          splbkItems],
 
-    ['potionInitiated',  potionInitiated],
-    ['itemSequence',     itemSequence],
-    ['potionsList',      potionsList],
-    ['craftScreen',      craftScreen],
-    ['pagesContent',     pagesContent],
-    ['pagesList',        pagesList],
+    ['potionInitiated',     potionInitiated],
+    ['itemSequence',        itemSequence],
+    ['potionsList',         potionsList],
+    ['pagesContent',        pagesContent],
+    ['pagesList',           pagesList],
 
-    ['char',             char],
-    ['moveCharBy',       moveCharBy],
+    ['char',                char],
+    ['moveCharBy',          moveCharBy],
+
+    ['showedInstructions',  showedInstructions],
 
     ['gameSaved',        true]
 ])
@@ -41,20 +41,29 @@ let saving = new Map ([
 
 
 function saveGame() {
-    localStorage.setItem('saved', saving);
+    // save game to localStorage upon 'Save and Exit' (Settings)
+    for (let [key, value] of saved) {
+        localStorage.setItem(key, value);
+    }
 }
 
 
 function restartGame() {
+    // restarts game by erasing everything
     gameSaved = false;
-    localStorage.removeItem('saved');
-    window.reload();
+    for (let [key, value] of saved) {
+        localStorage.removeItem(key);
+    }
+    location.reload();
 }
 
 function loadGame() {
-    // if (localStorage.getItem('saved') !== null) {
-    //     saved = localStorage.getItem('saved');
-    //     gameSaved = saved.get(gameSaved);
-    // }
-    gameSaved = false;
+    // called by setup() and 'Start/contine' (Homescreen).
+    // Pulls all info (if any) from localStorage
+    for (let [key, value] of saved) {
+        if (localStorage.getItem(key) !== null) {
+            saved.set(key, localStorage.getItem(key));
+        }
+    }
+    gameSaved = saved.get(gameSaved);
 }

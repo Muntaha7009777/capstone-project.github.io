@@ -39,7 +39,6 @@ function endingCon() {
     endingManager();
     endingBg();
     endingDialogue();
-
   }
 }
 
@@ -78,7 +77,7 @@ function endingDialogue() {
     endingInProgress = false;
     currentSet = 0;
     currEndLine = 0;
-    location.reload(); //restart everything
+    restartGame(); //restart everything
   }
 }
 

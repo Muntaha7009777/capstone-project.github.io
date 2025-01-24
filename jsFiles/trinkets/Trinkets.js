@@ -1,34 +1,31 @@
-
-// let weaponList = [];
-// let foodList = [];
-// let itemsList = [];
+// manages initial weapons, foods, items
+// has an over-archin TRINKETS class
+// Inventory items managament is separate
 
 let weaponList = [];
 let foodList = [];
 let itemList = [];
-
 // Parameters:
 // [ 'WeaponName', [image], 'ToolTip', initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, useBattle() ]
 // [ 'FoodName', [image], 'ToolTip', initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, useEat() ]
 // [ 'Items', [image], 'ToolTip', initX, initY, Set#, subSet_ifNotExist=0, offSet#_ifNotExist=0, found=boolean, [if food = useEat() || useMake()] ]
 
 
-// blood, iron,
 
-function trnkPreLoad() {
-  
-}
 
 function trnkSetup() {
   if (!gameSaved) {
+    // setup()
+    // the weapons
     weaponList.push(new Weapon('Sword', loadImage('/assets/images/trinkets/weapons/sword.png'), 'You can stab', width-width/12, height-height/12, 1, 1, 5));
     weaponList.push(new Weapon('Shield', loadImage('/assets/images/trinkets/weapons/shield.png'), 'You can shield', width/7, height-height/12, 2, 1, 5));
   
+    // the food
     foodList.push(new Food('Food', loadImage('/assets/images/trinkets/food/mushroom.png'), 'Mushroom', width-width/2.5, height-height/4.5, 1, 1));
     foodList.push(new Food('Food', loadImage('/assets/images/trinkets/food/blueberry.png'), 'Blueberry',   width-width/6,          height-height/3,          2, 0));
     foodList.push(new Food('Food', loadImage('/assets/images/trinkets/food/watermelon.png'), 'Watermelon',   width/6,          height/6,          2, 0));
 
-  
+    // the items (needed for potions) --- can be food too
     itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/eyeball.png'),   'Eyeball',    width/3,          height-height/6,                 1, 0));
     itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/honey.png'),     'Honey',      width-width/6,    height/6,                 1, 0));
     itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/bat.png'),       'Bat',        width/3,          height/6,                 1, 1));
@@ -48,6 +45,7 @@ function trnkSetup() {
     itemList.push(new Item('Item', loadImage('/assets/images/trinkets/items/gold.png'),      'Gold',       width-width/5,    height-height/3 - 25,     3, 1));
   } 
   else {
+    // if game was saved
     weaponList = saved.get(weaponList);
     foodList = saved.get(foodList);
     itemList = saved.get(itemList);
@@ -55,6 +53,8 @@ function trnkSetup() {
 }
 
 function trinketsCon() {
+  // draw()
+  if (potionInitiated) return;
   for (let i = 0; i < weaponList.length; i++) {
     weaponList[i].display(weaponList[i]);
   }
@@ -67,6 +67,9 @@ function trinketsCon() {
 }
 
 function trnkPressed() {
+  // mousePressed()
+  // manages clicking on things
+  if (potionInitiated) return;
   for (let i = 0; i < weaponList.length; i++) {
     weaponList[i].click(weaponList, i);
   }
@@ -81,7 +84,6 @@ function trnkPressed() {
 
 
 class Trinkets {
-
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum, effect) {
     this.name = name;
     this.img = img;
@@ -95,6 +97,7 @@ class Trinkets {
   }
 
   display() {
+    // display only if it matched set and subset
     imageMode(CENTER);
     tint('grey')
     if (!this.found && currentSet === this.setNum && currentSubSet === this.subSetNum) {
@@ -110,17 +113,21 @@ class Trinkets {
   }
 
   foundItem(arrayName, index){
-    //zoomed in spiral animation
+    //adds to inv and removes from list
     this.found = true;
     inv.add(arrayName[index]);
     arrayName.splice(index, 1);
   }
 
   click(arrayName, index) {
+    // helps check for clicking based on set, subset, and mousePosition
     if (this.found === false) {
-      if (mouseX < this.initX + 20 && mouseX > this.initX -20) {
-        if (mouseY < this.initY + 20 && mouseY > this.initY -20) {
-          this.foundItem(arrayName, index);
+      if (this.setNum === currentSet && this.subSetNum === currentSubSet) {
+        if (set[currentSet][currentSubSet][1] === false) return;
+        if (mouseX < this.initX + 20 && mouseX > this.initX -20) {
+          if (mouseY < this.initY + 20 && mouseY > this.initY -20) {
+            this.foundItem(arrayName, index);
+          }
         }
       }
     }
@@ -128,11 +135,13 @@ class Trinkets {
 
   used() {
     this.effect();
-    console.log('Effect used: Nomnom');
   }
 }
 
 
+//+++++++++++++++++++++++++++++++++++++++++++
+//  The self-explanatory child classes
+// ++++++++++++++++++++++++++++++++++++++++++
 
 class Weapon extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum, value) {
@@ -146,24 +155,28 @@ class Food extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum) {
     super(name, img, tooltip, initX, initY, setNum, subSetNum, eat);
   }
+  used() {
+    effectTimer = 120;
+    this.effect(this.tooltip); //sending tooltip for visual aid
+  }
 }
 
 
 class Item extends Trinkets {
   constructor(name, img, tooltip, initX, initY, setNum, subSetNum) {
     super(name, img, tooltip, initX, initY, setNum, subSetNum, eat);
+    effectTimer = 120;
     this.effectPotion = throwInPotTEXTONLY;
   }
 
   used() {
+    //eat or use in potion
+    effectTimer = 120;
     if (potionInitiated) {
-      timer = 120;
       this.effectPotion(this.tooltip);
       craftScreen.updateList(this.tooltip);
-      console.log('Effect used: Potion');
     } else {
-      this.effect();
-      console.log('Effect used: Nomnom');
+      this.effect(this.tooltip);  //sending tooltip for visual aid
     }
   }
 
@@ -171,105 +184,3 @@ class Item extends Trinkets {
     this.display();
   }
 }
-
-
-
-
-
-// let ingredients = ['mushrooms', 'sand', 'hibiscus', 'newts', 'eye', 'rice', 'shard', 'gold', 'actual chemical'];
-// let foodSet1 = [];
-// let pagesSet1 = [];
-// let itemsSet1 = [
-//   [],   //daggers
-//   []    //shields
-// ];
-
-// let foodSet2 = [];
-// let pagesSet2 = [];
-// let itemsSet2 = [
-//   [],   //daggers
-//   []    //shields
-// ];
-
-// let foodSet3 = [];
-// let pagesSet3 = [];
-// let itemsSet3 = [
-//   [],   //daggers
-//   []    //shields
-// ];
-
-// Possible Parameters
-// [ ‘itemName’,    ‘Image’,    ‘initX’,    ‘initY’,    ‘Boolean Found’,    ‘Boolean used (if ingre)’,    ‘Wrong Action dialogue’ ]
-
-
-
-// function itemPopupHandler() {
-//   ifSet1();
-//   ifSet2();
-//   ifSet3();
-// }
-
-
-// function ifSet1() {
-//   if (currentSet === 1) {
-//     if (setX === OFF_RIGHT) {
-//       itemsSet1[2];
-//     }
-    
-//     else if (setX === OFF_LEFT) {
-//       itemsSet1[0];
-//     }
-    
-//     else {
-//       itemsSet1[0];
-//     }
-//   }
-    
-// }
-
-// function ifSet2() {
-//   if (currentSet === 2) {
-//     if (currentsubSet === 0) {
-//       itemsSet2[0];
-//     }
-    
-//     else if (currentsubSet === 1) {
-//       itemsSet2[1];
-//     }
-    
-//     else if (currentsubSet === 2) {
-//       itemsSet2[2];
-//     }
-    
-//     else if (currentsubSet === 3) {
-//       itemsSet2[3];
-//     }
-    
-//     else if (currentsubSet === 4) {
-//       itemsSet2[4];
-//     }
-//   }
-// }
-
-// function ifSet3() {
-//   if (currentSet === 3) {
-//     if (currentsubSet === 0) {
-//       if (setX === OFF_RIGHT) {
-//         itemsSet3[0][1];
-//       }
-    
-//       else {
-//         itemsSet3[0][0];
-//       }
-//     }
-    
-//     if (currentsubSet === 1) {
-//       itemsSet3[1];
-//     }
-    
-//     if (currentsubSet === 2) {
-//       itemsSet3[2];
-//     }
-//   }
-// }
-

@@ -2,47 +2,50 @@
 let potionInitiated = false;
 let itemSequence = [];
 let potionsList = []
-// Possible Parameters:
+// Parameters:
 //  [ 'PotionName', tooltip, [items], use(), [image] ]
-//                              ^ remove potions from potion[] when one is made
 
 let potionBgImg;
-let craftIconOpen;
+let craftIconOpen = [];
+let cIconOpenIndex = 0;
 let craftIconClose;
 let craftScreen;
 
 let drankMemorySpell = false;
-let beenHereForRounds = 0;  //If 3 end
 
 
 function potionPreLoad() {
+    // preload()
     potionBgImg = loadImage('/assets/images/potions/bg.png');
-    craftIconOpen = loadImage('/assets/images/potions/craftIconOpen.png');
     craftIconClose = loadImage('/assets/images/potions/craftIconClose.png');
+    for (let i=0; i<=5; i++) {
+        craftIconOpen.push(loadImage("/assets/images/potions/craftIconOpen"+i+".png"));
+    }
 }
 
 function potionSetup() {
+    // setup()
+    craftScreen = new CraftScene(width / 2, height / 2, potionBgImg);
     if (!gameSaved) {
-        craftScreen = new CraftScene(width / 2, height / 2, potionBgImg);
-    
+        // the potions
         potionsList.push(new Potions('SpellHealth',     loadImage('/assets/images/potions/healthSpell.png'),      'Increase health by 50',    ['Rice', 'Mushroom', 'Clover', 'Gold', 'Hibiscus'],                    healthFifteen)),
         potionsList.push(new Potions('SpellShield',     loadImage('/assets/images/potions/shieldSpell.png'),      'Increase shield protection by 30',  ['Wood', 'Mushroom', 'Clover', 'Gold', 'Hibiscus'],           shieldTen)),
         potionsList.push(new Potions('SpellSword',      loadImage('/assets/images/potions/swordSpell.png'),       'Increase attack by 30',             ['Shard', 'Iron', 'Wood', 'Bone', 'Echinacea'],               swordTen)),
         potionsList.push(new Potions('SpellMemory',     loadImage('/assets/images/potions/memorySpell.png'),      'You Must Remember',                 ['Clover', 'Mushroom', 'Iron', 'Honey', 'Bat', 'Dust'],       remembered)),
         potionsList.push(new Potions('SpellSpeed',      loadImage('/assets/images/potions/speedSpell.png'),       'Walk faster',                       ['Sand', 'Eyeball', 'Gold', 'chemical', 'Blood', 'Clover'],   speedUp)),
-        potionsList.push(new Potions('SpellConfusion1', loadImage('/assets/images/potions/confusion1Spell.png'),  'Mystery potion',                    ['Wood', 'Mushroom', 'Clover', 'Salamander', 'Bat'],          nothing)),
-        potionsList.push(new Potions('SpellConfusion2', loadImage('/assets/images/potions/confusion2Spell.png'),  'Why? Just why?',                    ['chemical', 'Newt', 'Clover', 'Bone', 'Eyeball'],            nothing))
+        potionsList.push(new Potions('SpellConfusion',  loadImage('/assets/images/potions/confusionSpell.png'),   'Mystery potion',                    ['Wood', 'Mushroom', 'Clover', 'Salamander', 'Bat'],          die))
     }
     else {
         potionInitiated = saved.get(potionInitiated);
         itemSequence = saved.get(itemSequence);
         potionsList = saved.get(potionsList);
-        craftScreen = saved.get(craftScreen);
     }
 
 }
 
 function potionCon() {
+    // draw()
+    if (battleState) return;
     if (potionInitiated) {
         craftScreen.manage();
     }
@@ -50,26 +53,34 @@ function potionCon() {
 }
 
 function potionPressed() {
+    // mousePressed())
+    if (battleState) return;
+
+    // The Mortar and Pestal Clicking
     if (mouseX > width - 80 && (mouseY > 120 && mouseY < 165)) {
         potionInitiated = !potionInitiated;
-        console.log('PotionScene', potionInitiated);
     }
 }
 
 function craftScreenButton() {
-    fill(90, 30, 70);
+    // The Mortal and Pestel button on the top-right-third
     imageMode(CENTER);
+    
+    // spin the pestel if potionstate
     if (potionInitiated) {
-        image(craftIconOpen, width - 40, 140, 50, 50);
+        image(craftIconOpen[cIconOpenIndex], width - 40, 140, 40, 40);
+        if (frameCount%10 === 0) {
+            cIconOpenIndex++;
+            if (cIconOpenIndex > 5) cIconOpenIndex = 0;
+        }
     } else {
-        image(craftIconClose, width - 40, 140, 50, 50);
+        image(craftIconClose, width - 40, 140, 40, 40);
     }
-    fill(255);
 }
 
 
 class Potions {
-
+    // Makes the potions that go to inv
     constructor(name, img, tooltip, items, effect) {
         this.name = name;
         this.img = img;
@@ -90,42 +101,47 @@ class CraftScene {
     constructor(x, y, img) {
         this.x = x;
         this.y = y;
-        this.usedItemsList = [];
         this.bgImg = img;
         this.possibleMatch = [];
     }
 
     display() {
+        // draws the bg
         imageMode(CENTER);
         image(this.bgImg, width / 2, height / 2, width, height);
     }
 
 
     matchPotion() {
+        // checks to see if itemSequence is matching any of the spells
         if (this.possibleMatch.length === 0) {
             for (let i = 0; i < potionsList.length; i++) {
-                if (this.usedItemsList[0] === potionsList[i].items[0]) {
+                if (itemSequence[0] === potionsList[i].items[0]) {
                     this.possibleMatch = potionsList[i];
-                    console.log('Possible Match:', this.possibleMatch.tooltip);
                     break;
                 } else {
                     this.possibleMatch = potionsList[potionsList.length-1];
                 }
             }
         }
-        else {  //checking continuity
-            for (let i = 0; i < this.usedItemsList.length; i++) {
-                if (this.usedItemsList[i] === this.possibleMatch.items[i]) {
-                    if (this.usedItemsList.length === this.possibleMatch.items.length) {
+
+        //checking continuity
+        else {  
+            for (let i = 0; i < itemSequence.length; i++) {
+                // continuing
+                if (itemSequence[i] === this.possibleMatch.items[i]) {
+                    if (itemSequence.length === this.possibleMatch.items.length) {
                         this.created();
-                        this.endScreen();
+                        this.endPotionScene();
                     }
-                } else {
-                    this.possibleMatch = potionsList[potionsList.length-1];   //p5js was not allowing -1 for last index
-                    console.log('Doesnt match anymore');
-                    if (this.usedItemsList.length === 4) {
+                }
+                
+                // didn't continue
+                else {
+                    this.possibleMatch = potionsList[potionsList.length-1];   //the generic potion
+                    if (itemSequence.length === 4) {
                         this.created();    //generic spell with a 40% chance of dying
-                        this.endScreen();
+                        this.endPotionScene();
                         break;
                     }
                 }
@@ -133,25 +149,28 @@ class CraftScene {
         }
     }
 
-    endScreen() {
+    endPotionScene() {
+        // when button clicked to go back to normal game
         potionInitiated =  false;
-        this.usedItemsList = [];
+        itemSequence = [];
         this.possibleMatch = '';
     }
 
     updateList(item) {
-        this.usedItemsList.push(item)
+        // Update list when somethinf added
+        itemSequence.push(item)
         this.matchPotion();
     }
 
 
     created() {
+        // sends the matched/generic potion to inv
         inv.add(this.possibleMatch);
         let indexToRemove = potionsList.indexOf(this.possibleMatch);
-        if (indexToRemove !== potionsList.length-1) {
+        if (indexToRemove !== potionsList.length-1) {  // remove from potions --- if not the generic one
          potionsList.splice(indexToRemove, 1);
         }
-        // remove from potions --- as long as not the last one
+       
     }
 
 

@@ -37,11 +37,10 @@ function homeCon() {
         //start + Exit
         textSize(20);
         image(textBoxBg, width/2, height-height/3, width/2, height/6.5);
-        text('Start', width/2, height-height/3 -5);
-        // text('Start / Continue', width/2, height-height/3 -5);
+        text('Start / Continue', width/2, height-height/3 -5);
         
-        // image(textBoxBg, width/2, height-height/6, width/2, height/6.5);
-        // text('Restart', width/2, height-height/6 -5);
+        image(textBoxBg, width/2, height-height/6, width/2, height/6.5);
+        text('Restart', width/2, height-height/6 -5);
 
         pop();
     }

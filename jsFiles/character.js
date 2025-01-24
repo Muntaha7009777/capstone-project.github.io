@@ -1,3 +1,5 @@
+// file that manages character display and movement
+// not set change
 
 let charImgs = [
   [], //idle
@@ -7,12 +9,12 @@ let charImgs = [
   []  //dead
 ];
 let char;
-let moveCharBy = 2;
-let charBod = 30;
-let starved = false;
+let charBod = 40;     //change detection sensitivity (sets & battle scenes)
+let starved = false;  //for an ending
 
 
 function charPreLoad() {
+  // preload()
   for (let i = 1; i <= 22; i++) {
     charImgs[0].push(loadImage("/assets/images/characters/idle/" + i + ".png"));
   }
@@ -32,28 +34,30 @@ function charPreLoad() {
 
 
 function charSetup() {
+  // setup()
   if (!gameSaved) {
-    char = new Char(width/2, height-height/8, 100, charImgs)
+    char = new Char(width/2, height-height/8, 100, 2, charImgs)
   }
   else {
     char = saved.get(char);
-    moveCharBy = saved.get(moveCharBy);
+    char.speed = saved.get(char.speed);
   }
 }
 
 
 function charCon() {
+  // draw()
   // charSelection();
   if (currentSet !== 0) char.manage();
-  T_showCharInfo();
 }
 
 
 function charPressed() {
-
+  // mousePressed()
 }
 
 function charKey() {
+  //keyPressed
   char.charKeyClick();
 }
 
@@ -103,34 +107,38 @@ function charKey() {
 
 
 class Char {
-  constructor(x, y, health, images) {
+  constructor(x, y, health, speed, images) {
     this.x = x;
     this.y = y;
     this.health = health;
     this.fullHealth = health;
     this.perHeart = health / 5;
 
+    this.speed = speed;
     this.images = images;
     this.imgIndex = 0;
     this.currentImg = 0;  //0- idle  1-walk  2-run  3-fall  4-jump  5-dead
   }
 
   display() {
+    // display the character (and not in some conditions) depending on action
     if (potionInitiated || splbkVisible) return;
     tint('darkgrey');
     image(this.images[this.currentImg][this.imgIndex], this.x, this.y, 50, 50);
 
-    if (this.currentImg !== 2) {
-      if (frameCount % 20 === 0) {
+    //cycle through imgs, but faster when running
+    if (frameCount % 20 === 0) {
+        if (this.currentImg !== 2) {  
         this.imgIndex++;
       }
     }
-    else {
+    else {    
       if (frameCount % 4 === 0) {
         this.imgIndex++;
       }
     }
 
+    // fix imgIndex going out of bounds
     if (this.imgIndex > this.images[this.currentImg].length - 1) {
       this.imgIndex = 0;
     }
@@ -138,52 +146,52 @@ class Char {
   }
 
   move() {
+    // no moving under some conditions
     if (battleState && monsterList[currentSet-1].defeated === false) return;
     if (set[currentSet][currentSubSet][1] === false) return;
 
-    if (keyIsPressed) {
-
-
-      if (keyCode === UP_ARROW && this.y > height-height/5) {
-        this.y -= moveCharBy;
+      // allows diagonal movement with keyIsDown
+      // vertical
+      if (keyIsDown(UP_ARROW) && this.y > height-height/5) {
+        this.y -= char.speed;
       }
-      else if (keyCode === DOWN_ARROW && this.y < height) {
-        this.y += moveCharBy;
+      else if (keyIsDown(DOWN_ARROW) && this.y < height) {
+        this.y += char.speed;
       }
 
-
-      else if (keyCode === LEFT_ARROW && this.x > 0) {
-        this.x -= moveCharBy;
+      // horizontal
+      if (keyIsDown(LEFT_ARROW) && this.x > 0) {
+        this.x -= char.speed;
       }
-      else if (keyCode === RIGHT_ARROW && this.x < width) {
-        this.x += moveCharBy;
+      else if (keyIsDown(RIGHT_ARROW) && this.x < width) {
+        this.x += char.speed;
       }
-    }
   }
 
   decideCharacterAnimation() {
+    // animate char if doing something, else Idle
     if (keyIsPressed) {
       if (keyCode === RIGHT_ARROW || keyCode === LEFT_ARROW || keyCode === UP_ARROW || keyCode === DOWN_ARROW) {
-        if (moveCharBy > 5) this.currentImg = 2;
+        if (char.speed > 5) this.currentImg = 2;  //if running
         else this.currentImg = 1;
       }
       if (keyCode === 32) this.currentImg = 3;
     }
-    // else if (ending5) {
-
-    // }
     else {
       this.currentImg = 0;
     }
   }
 
   charKeyClick() {
+    // resets imgIndex back to 0 (or crashed because all animations not same length)
     this.imgIndex = 0;
   }
 
   starving() {
-    if (frameCount%3600 === 0) { //every 1ish minute
+    // lose health if char hasn't eating anything
+    if (frameCount%3600 === 0) { //every 1-ish minute
       char.health -=10;
+      // ending 4 if starved
       if (char.health <= 0) {
         starved = true;
         endingInProgress = true;
@@ -192,22 +200,10 @@ class Char {
   }
 
   manage() {
+    // manager function
     this.display();
     this.move();
     this.decideCharacterAnimation();
     this.starving();
   }
 }
-
-
-function T_showCharInfo() {
-  fill('lightgreen');
-  textSize(13);
-  text('CharX: ' + char.x, 25, 60);
-  text('CharY: ' + char.y, 25, 80);
-}
-
-
-
-// If time allows....
-// - add character customization

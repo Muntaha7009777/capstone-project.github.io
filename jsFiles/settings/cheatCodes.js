@@ -1,4 +1,8 @@
-
+// Last minute cheat-codes
+// I decided not to put a password in after all
+// It was going to be RICKASTLEY
+// Yes, Mr Scott. I know...
+// I lost my last chance to rickroll you
 
 function cheatsTried() {
     //Get Everything

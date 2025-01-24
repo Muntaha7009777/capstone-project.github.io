@@ -1,15 +1,4 @@
-/* 
-
-Has:
-- Inventory Class
-- Inventory Button
-
-Remove (exists for testing purposes): 
-- invPreload()
-
-*/
-
-
+// Manages the Inventory
 
 let inv;
 let invItems = [];
@@ -19,8 +8,6 @@ let invArrow;
 let invBox;
 let invIconOpen;
 let invIconClose;
-
-let T_img;
 
 
 function invPreLoad() {
@@ -32,21 +19,42 @@ function invPreLoad() {
 }
 
 function invSetup() {
-    if (gameSaved) {
-        inv = saved.get(inv);
+    // setup()
+    if (gameSaved) { //retireve info if game saved
         invItems = saved.get(invItems);
     }
-    else inv = new Inventory();
+    inv = new Inventory();
 }
 
 function inventoryCon() {
+    // draw()
+    if (battleState) return;
     invButton();
     inv.display();
-    // T_INV_addRem();
 }
 
 
+function invPressed() {
+    // mousePressed()
+    if (battleState) return;
+
+    // deals with visibility state
+    if (mouseX > width - 90 && mouseY < 60) {
+        invVisible = !invVisible;
+    }
+
+    // deals with object clicking and arrows
+    if (invVisible) {
+        inv.slide();
+        inv.click();
+    }
+}
+
+
+
 function invButton() {
+    // the button on the top-right-first
+    // changes bases on visiblity state
     fill(90, 30, 70);
     imageMode(CENTER);
     if (invVisible) {
@@ -58,17 +66,6 @@ function invButton() {
 }
 
 
-function invPressed() {
-    // mousePressed()
-    if (mouseX > width - 90 && mouseY < 60) {
-        invVisible = !invVisible;
-        // console.log('Inventory', invVisible);
-    }
-    inv.slide();
-    inv.click();
-    // T_INV_pressed();
-}
-
 
 class Inventory {
     constructor() {
@@ -79,12 +76,11 @@ class Inventory {
         this.x = width / 2;
         this.y = height - this.invHeight;
         this.invStart = 0;
-        this.invEnd = 5;
     }
 
     display() {
+        // display the inv and its items
         if (invVisible) {
-            push();
             rectMode(CENTER);
             imageMode(CENTER);
 
@@ -97,20 +93,20 @@ class Inventory {
             pop();
 
 
-            // rect(this.x, this.y, this.invWidth, this.invHeight);
+            // Individual boxes
             strokeWeight(4);
             for (let i = 0; i < 50; i += 10) {
                 tint('pink');
                 image(invBox, this.x - (this.gap - i * 10), this.y + 5, this.invBoxSize, this.invBoxSize);
                 noTint();
-                // rect(this.x - (200 - i * 10), this.y, 100);
             }
             strokeWeight(1);
 
 
 
             //display the items
-            imageMode(CENTER);
+
+            // If less than or equal to five items
             if (invItems.length <= 5) {
                 for (let i = 0; i < invItems.length; i++) {
                     image(invItems[this.invStart + i].img, this.x - (this.gap - i * 100), this.y, 60, 60);
@@ -129,7 +125,11 @@ class Inventory {
 
 
                 }
-            } else {
+            } 
+            
+            
+            // If more than five items
+            else {
                 for (let i = 0; i < 5; i++) {
                     image(invItems[this.invStart + i].img, this.x - (this.gap - i * 100), this.y, 60, 60);
 
@@ -147,15 +147,18 @@ class Inventory {
                 }
             }
 
-            pop();
         }
     }
 
     click() {
+        // clicking an invItem to use it
+
+        // If less than or equal to 5
         if (invItems.length <= 5) {
             for (let i = 0; i < invItems.length; i++) {
                 if (mouseX < (this.x - (this.gap - i * this.invBoxSize)) + 30 && mouseX > (this.x - (this.gap - i * this.invBoxSize)) - 30) {
                     if (mouseY < this.y + 30 && mouseY > this.y - 30) {
+                        // Don't use if weapon
                         if (!(invItems[i] instanceof Weapon)) {
                             invItems[i].used();
                             this.remove(this.invStart + i);
@@ -163,10 +166,14 @@ class Inventory {
                     }
                 }
             }
-        } else {
+        } 
+        
+        // If more than 5
+        else {
             for (let i = 0; i < 5; i++) {
                 if (mouseX < (this.x - (this.gap - i * this.invBoxSize)) + 30 && mouseX > (this.x - (this.gap - i * this.invBoxSize)) - 30) {
                     if (mouseY < this.y + 30 && mouseY > this.y - 30) {
+                        // Don't use if weapon
                         if (!(invItems[i] instanceof Weapon)) {
                             invItems[i].used();
                             this.remove(this.invStart + i);
@@ -178,21 +185,24 @@ class Inventory {
     }
 
     add(thing) {
+        // add to inv
         invItems.push(thing);
     }
 
     remove(indexOfThing) {
+        // remove from inv upon use
         invItems.splice(indexOfThing, 1);
         if (invItems.length > 5 && this.invStart !== 0) {
             this.invStart--;
-            // this.invEnd--;
         }
     }
 
     slide() {
+        // move through items
+
+        // left arrow
         if (mouseX > this.x - 280 && mouseX < this.x - 260) {
             if (mouseY > this.y - 10 && mouseY < this.y + 10) {
-                // console.log('Clicked Left Arrow');
                 if (this.invStart !== 0) {
                     this.invStart--;
                     this.invEnd--;
@@ -200,35 +210,15 @@ class Inventory {
             }
         }
 
+        // right arrow
         if (mouseX > this.x + 260 && mouseX < this.x + 280) {
             if (mouseY > this.y - 10 && mouseY < this.y + 10) {
-                // console.log('Clicked Right Arrow');
                 if (this.invEnd !== invItems.length) {
                     this.invStart++;
                     this.invEnd++;
                 }
             }
         }
-        // console.log('InvStart', this.invStart, 'InvEnd', this.invEnd);
     }
 
-}
-
-
-function T_INV_addRem() {
-    rect(width / 2, height / 2, 100);
-    rect(width / 3, height / 3, 100);
-}
-
-function T_INV_pressed() {
-    if (mouseX > 330 && mouseX < 430) {
-        if (mouseY > 370 && mouseY < 475) {
-            inv.add(T_img);
-        }
-    }
-    if (mouseX > 220 && mouseX < 320) {
-        if (mouseY > 260 && mouseY < 350) {
-            inv.remove(T_img);
-        }
-    }
 }

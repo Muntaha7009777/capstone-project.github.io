@@ -1,37 +1,64 @@
-
-let timer = 0;
+// manages effects and animations
+// connected to the trinkets folder
+let effectTimer = 0;
 let infoHolder;
 let functionInPlay = nothing;
 
 
 function animationsCon() {
+    // draw() for visual aids
+    textSize(20);                   
+    textAlign(CENTER, CENTER);      
+    fill(255);                      
     functionInPlay(infoHolder);
 }
 
-function eat() {
-    char.health += 20;
-    if (char.health > 100) char.health = 100;
+
+
+function nothing() {
+    //does nothing
+}
+
+
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//  Visual Aids - show if something is done
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function eat(t) {
+    // when ate something
+    functionInPlay = eat;
+    infoHolder = t;
+    if (effectTimer !== 0) {
+        text(('Ate '+t + ' 20 Health. Now at ' + char.health), width/2, height/6);
+        effectTimer -= 1;
+    } else {
+        char.health += 20;
+        if (char.health > 100) char.health = 100;
+        functionInPlay = nothing;
+    }
 }
 
 
 function throwInPotTEXTONLY(t) {
+    // when used a potion ingredient
     functionInPlay = throwInPotTEXTONLY;
-    infoHolder = t; //have to recode this
-    if (timer !== 0) {
-        textSize(20);
-        textAlign(CENTER, CENTER);
-        fill(255);
+    infoHolder = t;
+    if (effectTimer !== 0) {
         text(('Used '+t), width/2, height/6);
-        timer -= 1;
+        effectTimer -= 1;
     } else {
         functionInPlay = nothing;
     }
 }
 
 
-function nothing() {
-    
-}
+
+
+//++++++++++++++++++++++++++++++++++
+//  Self explanatory potion effects
+//++++++++++++++++++++++++++++++++++
 
 function healthFifteen() {
     char.health +=50;
@@ -52,14 +79,18 @@ function swordTen() {
 }
 
 function speedUp() {
-    moveCharBy = 6;
+    char.speed = 6;
 }
 
 function strike() {
-    swordSwoosh.play()
+    //was supposed to add a swoosh sound
 }
 
 function remembered() {
     drankMemorySpell = true;
     endingInProgress = true;
+}
+
+function die() {
+    char.health = 0;
 }

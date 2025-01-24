@@ -1,3 +1,4 @@
+// Manages the battle scenes
 
 let heartFull, heartHalf, heartLost;
 let battleBgImgs = [];
@@ -7,15 +8,13 @@ let battleState = false;
 let battleSets = [
     'Sets for battle'
 ]
-// Every set has 1 attached, remove once done
-// Possible Parameters:
+// Parameters:
 //  [ 'Name', Set#, subSet#, Visited, [EnterX, EnterY], [RestrictedX, RestrictedY], [ReturnX, returnY]; Monster#, img ]
 
 
 let monsterList = [];
-// Possible Parameters:
-//  [ 'Name', XP, attackMethod(), img ];
-
+// Parameters:
+//  [ 'Name', XP, job, x, y, dmgChance, dmg, img ];
 
 
 function batPreLoad() {
@@ -100,7 +99,7 @@ class FightOp {
     }
 
     incWeapons() {   
-        if (this.hasSword) {
+        if (this.hasSword &&  !monsterList[currentSet-1].defeated) {
             let x = (width-width/12);
             let y = (height-height/6);;
             let size = 60;
@@ -114,8 +113,8 @@ class FightOp {
 
     checkState() {
         if (this.setNum === currentSet && this.subsetNum === currentSubSet && !monsterList[currentSet-1].defeated) {
-            if (char.x < this.eX+30 && char.x > this.eX-30) {
-                if (char.y < this.eY+30 && char.y > this.eY-30) {
+            if (char.x < this.eX+charBod && char.x > this.eX-charBod) {
+                if (char.y < this.eY+charBod && char.y > this.eY-charBod) {
                     currentSubSet = 0;      //subset 0 means battle scene
                     battleState = true;
     

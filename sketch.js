@@ -18,13 +18,13 @@ function preload() {
   invPreLoad();
   potionPreLoad();
   splbkPreLoad();
-  trnkPreLoad();
   pagePreLoad();
   diaPreLoad();
   batPreLoad();
   charPreLoad();
   settingsPreLoad();
   endPreLoad();
+  instPreLoad();
 }
 
 function setup() {
@@ -52,73 +52,55 @@ function draw() {
   background(220);
   cursor('/assets/images/settings/cursor.png');
 
-  musicCon();
-  endingCon();
 
-
-
-  if (!endingInProgress) {
+  if (endingInProgress) endingCon()
+  else {
     if (currentSet === 0) homeCon();
+    else if (!showedInstructions) instructionsCon();
     else {
       setCon();
       battleCon();
-      if (!potionInitiated) {
-        trinketsCon();
-        pageCon();
-      }
-      if (!battleState) {
-        potionCon();
-        inventoryCon();
-        spellBookCon();
-      }
+      trinketsCon();
+      pageCon();
       charCon();
+      potionCon();
+      inventoryCon();
+      spellBookCon();
       dialogueCon();
       animationsCon();
     }
-    settingsCon();
   }
-
-
-
-  // mouseGuide();
-  // gridGuide(6);
-  // T_showSetInfo();
-  // T_setChangeWithChar();
+  musicCon();
+  settingsCon();
 }
 
 
 function mousePressed() {
   // interacts with ONLY the "Pressed()" of every file
 
+
   if (!settingsVisible) {
-    musicPressed();
-    if (currentSet === 0) {
-      homePressed();
-    }
+    if (currentSet === 0)  homePressed();
+    else if (!showedInstructions)  instPressed();
     else {
-      setPressed();
-      if (!battleState) {
-        potionPressed();
-        invPressed();
-        splbkPressed();
-        diaPressed();
-      }
-      if (!potionInitiated) {
-        trnkPressed();
-        pagePressed()
-      }
-      if (battleState) batPressed();
-      charPressed();
+      if (battleState)  batPressed();
+      trnkPressed();
+      pagePressed();
+      potionPressed();
+      invPressed();
+      splbkPressed();
+      diaPressed();
     }
-    endPressed();
   }
   settingsPressed();
 }
 
+
+
 function keyPressed() {
   // T_moveCharKeys();
   charKey();
-  if (currentSet !==0 && set[currentSet][currentSubSet][1] === true) {
+  if (currentSet !== 0 && set[currentSet][currentSubSet][1] === true) {
     cheatsTried();
   }
 }

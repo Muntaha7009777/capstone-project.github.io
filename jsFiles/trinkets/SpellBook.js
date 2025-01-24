@@ -1,10 +1,5 @@
-/* 
-
-Has:
-- Spell Book Class
-- Spell Book Button
-
-*/
+// Manages the Spellbook (display/page flipping)
+// Not Spells or Potions
 
 let splbk;
 let splbkVisible = false;
@@ -15,6 +10,7 @@ let splbkIconOpen;
 
 
 function splbkPreLoad() {
+  // preload()
   splbkIcon = loadImage('/assets/images/splbk/book.png');
   splbkArrow = loadImage('/assets/images/splbk/arrow.png');
   splbkIconClose = loadImage('/assets/images/splbk/bookClose.png');
@@ -22,27 +18,36 @@ function splbkPreLoad() {
 }
 
 function splbkSetup() {
+  // setup()
+  // retrive info if exists
   if (gameSaved) {
-    splbk = saved.get(splbk);
     splbkItems = saved.get(splbkItems);
   }
-  else {
-    splbk = new Book();
-  }
- }
-
-
-function spellBookCon() {
-  splbkButton();
-  splbk.display();
-  // T_BOOK_adder();
+  splbk = new Book();
 }
 
 
+function spellBookCon() {
+  // draw()
+  if (battleState) return;
+  splbkButton();
+  splbk.display();
+}
+
+function splbkPressed() {
+  // mousePressed();
+  if (battleState) return;
+  splbk.slide();
+
+  // only move through pages if visible
+  if (mouseX > width - 80 && (mouseY > 70 && mouseY < 110)) {
+    splbkVisible = !splbkVisible;
+  }
+}
 
 function splbkButton() {
+  // The splbk opening button. Changes bases on visibility state
   fill(90, 30, 70);
-  // rect(width - 30, 40, 20);
   imageMode(CENTER);
   if (splbkVisible) {
     image(splbkIconOpen, width - 40, 90, 50, 50);
@@ -53,15 +58,7 @@ function splbkButton() {
 }
 
 
-function splbkPressed() {
-  // mousePressed()
-  if (mouseX > width - 80 && (mouseY > 70 && mouseY < 110)) {
-    splbkVisible = !splbkVisible;
-    // console.log('Splbk', splbkVisible);
-  }
-  splbk.slide();
-  // T_BOOK_pressed();
-}
+
 
 
 class Book {
@@ -77,10 +74,9 @@ class Book {
     if (splbkVisible) {
       push();
 
+      // book bg
       rectMode(CENTER);
       imageMode(CENTER);
-      // rect(this.x - this.splbkWidth / 2, this.y, this.splbkWidth, this.splbkHeight);
-      // rect(this.x + this.splbkWidth / 2, this.y, this.splbkWidth, this.splbkHeight);
       image(splbkIcon, this.x + 10, this.y, 550, 400);
 
       // display the items
@@ -91,19 +87,18 @@ class Book {
         }
       }
 
-      // rect(this.x + this.splbkWidth - 40, this.y + this.splbkHeight / 2 - 10, 20, 20);
-      // rect(this.x - this.splbkWidth + 40, this.y + this.splbkHeight / 2 - 10, 20, 20);
-
+      // Arrow
       imageMode(CENTER);
-      image(splbkArrow, this.x + this.splbkWidth - 50, this.y + this.splbkHeight / 2 - 10, 80, 80);
-
-      translate(this.x - this.splbkWidth + 40, this.y + this.splbkHeight / 2 - 10);
+      image(splbkArrow, this.x + 50, this.y + this.splbkHeight / 2 - 10, 80, 80);
+      // 2nd arrow
+      translate(this.x - 50, this.y + this.splbkHeight / 2 - 10);
       rotate(PI);
       image(splbkArrow, 0, 0, 80, 80);
 
       pop();
     }
   }
+
 
   styleSpellsPage(spellNum, x, y) {
     textSize(20);
@@ -120,47 +115,36 @@ class Book {
     for (let i in splbkItems[spellNum][1]) {
       text(splbkItems[spellNum][1][i], x - this.splbkHeight / 4, (y - this.splbkHeight / 5) + i * 20);
     }
-    // text(splbkItems[spellNum][1], x - this.splbkHeight / 4, y - this.splbkHeight / 4, x - 4);
 
-    // sketch
+    // img
     imageMode(CENTER);
     image(splbkItems[spellNum][2], x + this.splbkWidth / 5, y + this.splbkHeight / 5, 80, 120)
   }
 
+
   slide() {
-    if (mouseX > this.x - this.splbkWidth +20  && mouseX < this.x - this.splbkWidth + 80) {
+    // Left arrow click
+    if (mouseX < this.x - 50 + 30 && mouseX > this.x - 50 - 30) {
       if (mouseY > this.y + this.splbkHeight / 2 - 20 && mouseY < this.y + this.splbkHeight / 2) {
-        // console.log('Clicked Left Arrow');
         if (this.splbkStart !== 0) {
           this.splbkStart -= 2;
         }
       }
     }
-    if (mouseX < this.x + this.splbkWidth -20 && mouseX > this.x + this.splbkWidth - 80) {
+
+    // Right arrow click
+    if (mouseX < this.x + 50 + 30 && mouseX > this.x + 50 - 30) {
       if (mouseY > this.y + this.splbkHeight / 2 - 20 && mouseY < this.y + this.splbkHeight / 2) {
-        // console.log('Clicked Right Arrow');
         if (this.splbkStart + 2 < splbkItems.length) {
           this.splbkStart += 2;
         }
       }
     }
-    // console.log('SplbkStart', this.splbkStart, 'SplBkItems', splbkItems.length);
   }
+
 
   add(thing) {
+    //used when pages found
     splbkItems.push(thing);
-  }
-}
-
-
-function T_BOOK_adder() {
-  rect(20, 60, 60);
-}
-
-function T_BOOK_pressed(){
-  if (mouseX > 20 && mouseX < 80) {
-    if (mouseY > 60 && mouseY < 120) {
-      splbk.add(T_spell);
-    }
   }
 }
